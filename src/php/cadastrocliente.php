@@ -61,7 +61,7 @@
         
     } else {
         echo '<script>console.log("invalido")</script>'; 
-        echo json_encode("invalido");
+        echo json_encode("invalid0");
     }
 
     
