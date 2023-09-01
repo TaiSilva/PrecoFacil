@@ -26,14 +26,14 @@
     $senha = filter_var($_REQUEST['senha'],FILTER_SANITIZE_STRING);
 
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        if(empty($nomecompleto)){
+        /*if(empty($nomecompleto)){
             echo json_encode("faltanome");
         }else if(empty($cep)){
             echo json_encode("faltacep");
 
         }else if(!preg_match('/^\d{5}-\d{3}$/', $cep)){
             echo json_encode("cepinvalido");
-        }else{
+        }else{*/
             $sql = "SELECT COUNT(*) AS total FROM usuario WHERE email = '$email'";
             $busca = mysqli_query($conn, $sql);
 	        $result = mysqli_fetch_assoc($busca);
@@ -42,7 +42,7 @@
     
 
             if ($result['total'] > 0){
-                
+                echo json_encode("cadastroexiste");
             }else{
                 $sql= "INSERT INTO usuario (nomecompleto, cep, endereco, cidade, email, datanascimento, numero, bairro, senha) VALUES ('$nomecompleto', '$cep', '$rua', '$cidade', '$email', '$dataFormatada', '$numero', '$bairro', '$senha')";
 
@@ -51,7 +51,7 @@
         
                 echo json_encode("sucesso");
             }
-        }   
+       // }   
             
             
             
