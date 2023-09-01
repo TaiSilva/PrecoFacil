@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="./src/stylepreco.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nome+da+Fonte">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+
+            <a class="navbar-brand"><img src="./src/img/logoOficial.png" alt="" width="130px"></a>
+
+            <div class="col d-flex justify-content-center">
+
+
+                <input type="text" class="d-flex input-buscarpromo me-2 rounded-3 d-none d-md-block"
+                    placeholder="Buscar Produto">
+                <span class="d-flex align-items-center">
+                    <i class="bi bi-search d-none d-md-block"></i>
+                </span>
+
+            </div>
+
+            <div class="col d-flex justify-content-start d-none d-md-block" id="barcode-scanner">
+                <button type="submit" class="btn botao-cor-especial botao"><i class="bi bi-upc-scan">Pesquisa por código
+                        de barras</i></button>
+            </div>
+
+
+            <span class="d-flex align-items-end nav-item dropdown" id="exibirLogin">
+                <i class="bi bi-person-circle" data-bs-toggle="dropdown"></i>
+            </span>
+
+
+            <div class="row input-tam-pequeno mt-3 d-block d-md-none">
+                <div class="col d-flex justify-content-center">
+                    <input type="text" class="d-flex input-buscarpromo me-2 rounded-3 d-block d-md-none"
+                        placeholder="Buscar Produto">
+                    <span class="d-flex align-items-center">
+                        <i class="bi bi-search d-block d-md-none"></i>
+                    </span>
+                </div>
+                <div class="col d-flex justify-content-center d-block d-md-none mt-3">
+                    <button type="submit" class="btn botao-cor-especial botao" id="eventobotaocodigo" data-bs-toggle="modal" data-bs-target="#modal-camera">
+                        <i class="bi bi-upc-scan">Pesquisa por código de barras</i>
+                    </button>
+                </div>                
+            </div>
+
+
+        </div>
+        <div id="divLogin" class="container-fluid mt-3 d-flex justify-content-end d-none">
+            <ul class="list-group list-group-horizontal">
+                <a href="login.html"><li class="list-group-item">Entrar ou Cadastrar</li></a>
+                <!-- Adicione mais itens conforme necessário -->
+            </ul>
+        </div>
+
+    </nav>
+    <div class="modal fade" id="modal-camera"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+          <div class="modal-content"> 
+            <div id="barcode-scanner-smart" class="d-flex justify-content-center camera">
+                <video autoplay="true" preload="auto" src="" muted="true" playsinline="true" class="camera"></video>
+                <canvas class="drawingBuffer" width="640" height="480"></canvas>
+            </div>    
+            
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeCameraBtn">Fechar</button>
+                </div>
+         
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+    <script src="./src/js/index.js"></script>
+</body>
+
+</html>

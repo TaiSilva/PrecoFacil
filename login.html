@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login cliente</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="./src/stylepreco.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nome+da+Fonte">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+</head>
+<body class="background-login">
+    <div class="container">
+        <div class="row vh-100">
+            <div class="col d-flex d-none d-md-inline">
+                <div class="container">
+                    <div class="row">
+                        <div class="col mt-3">
+                            <a href="index.html"><img src="./src/img/logoOficial.png" alt="" width="180px"></a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col d-flex">
+                            <div class="text-login mt-5 pt-5">
+                                <p>A economia começa com pequenos ganhos, pois uma grande riqueza é o resultado de um pequeno começo.</p>
+                                <p>Comece hoje, economizando dinheiro com a PreçoFácil.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+            <div class="col d-flex justify-content-center align-items-center">
+                <div class="container">
+                    <div class="row">
+                       
+                            <div class="col d-flex justify-content-center mb-5 img-fluid d-md-none d-md-inline">
+                                <img src="./src/img/logoOficial.png" alt="" width="200px">
+                            </div>
+                        
+                        <div class="col d-flex justify-content-center">
+                            <form method="POST" action="entrarcliente.php" class="px-4 py-4 rounded-4 background-form-login">
+                                <div class="label-form-login text-center">
+                                    <label for=""><h4>Login</h4></label>
+                                </div>
+                                <div class="input-group my-4">
+                                    <div class="input-group-text">
+                                        <input type="text" class="bg-transparent inputLogin order-first" name="login" id="login" size="30" maxlength="30" placeholder="E-mail">                                      
+                                        <span>
+                                            <i class="bi bi-person-fill"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="input-group my-4">
+                                    <div class="input-group-text">
+                                        <input type="password" class="bg-transparent inputLogin order-first" name="senha" id="senha" size="30" maxlength="30" placeholder="Senha">
+                                        <span id="mostrarSenha">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col d-flex justify-content-end my-3">
+                                     <span class="link-default fonte-esqueciSenha" data-bs-toggle="modal" data-bs-target="#modal-esquecisenha">Esqueci a senha</span></p>
+                                </div>
+                                <button type="submit" class="btn botao-cor-especial botao ms-3">Entrar</button>
+                                
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col d-flex justify-content-center mt-3">
+                            <div class="botaoGoogle rounded-4" id="buttonDiv"></div>
+                        </div> 
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col d-flex justify-content-center mt-3">
+                            <p>Ainda não tem uma conta? <span class="link-default" data-bs-toggle="modal" data-bs-target="#modal-cadastrousuario">Criar uma conta.</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+            
+        </div>  
+    </div>  
+    <!-- MODAL ESQUECI A SENHA -->    
+    
+  <div class="modal fade" id="modal-esquecisenha" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Esqueceu a senha?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>Informe o e-mail cadastrado que enviaremos as instruções para redefinir sua senha.</p>
+            <input type="text" class="" name="login" id="email-modal" size="55" maxlength="32" placeholder="E-mail">
+            <i class="bi bi-envelope-fill"></i>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+          <button type="button" class="btn botao-cor-especial">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+      <!-- MODAL CADASTRO USUÁRIO -->    
+    
+      <div class="modal fade" id="modal-cadastrousuario"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+          <div class="modal-content">
+
+                <form action="" method="post" class="">
+                    <div class="container">
+                        <div class="row">
+                            <div>
+                                <h3>Bora cadastrar?</h3>
+                                <p>Para se cadastrar, basta preencher os campos solicitados.</p>
+                            </div>
+                            <div class="col">
+                                <div class="col-md-12 mb-3" id="nomecadastro">
+                                    <label for="nome" class="form-label">Nome</label>
+                                    <input type="text" class="form-control" id="cadastrousuario-nome" name="nomecompleto" aria-describedby="emailHelp">
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="exampleInputPassword1" class="form-label">CEP</label>
+                                        <input type="text" class="form-control" id="cadastrousuario-cep" name="cep">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12 mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Rua</label>
+                                    <input type="text" class="form-control" id="cadastrousuario-rua" name="rua">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Cidade</label>
+                                    <input type="text" class="form-control" id="cadastrousuario-cidade" name="Cidade">
+                                </div>
+                                <div class="col-md-12 mb-3" id="divEmail">
+                                    <label for="nome" class="form-label">E-mail</label>
+                                    <input type="email" class="form-control" id="cadastrousuario-email" name="email" aria-describedby="emailHelp">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="col-md-4 mb-5">
+                                    <label for="exampleInputPassword1" class="form-label">Data de Nascimento</label>
+                                    <input type="date" class="form-control" id="cadastrousuario-dtnascimento" name="dtnascimento">
+                                </div>
+                                <div class="d-flex align-items-center pt-1">
+                                    <div class="col-md-4 mt-5">
+                                        <label for="exampleInputPassword1" class="form-label">Número</label>
+                                        <input type="text" class="form-control" id="cadastrousuario-numero" name="numero">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 col-sm-12 mt-3 mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Bairro</label>
+                                    <input type="text" class="form-control" id="cadastrousuario-bairro" name="bairro">
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Senha</label>
+                                    <input type="password" class="form-control" id="cadastrousuario-senha" name="senha">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="exampleInputPassword1" class="form-label">Confirmar Senha</label>
+                                    <input type="password" class="form-control" id="exampleInputPassword1">
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                
+                <div class="modal-footer">
+                    <button type="button" id="botaofecharmodal" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" id="botaoCadastrar" class="btn botao-cor-especial">Cadastrar</button>
+                </div>
+            </form>
+        </div>
+      </div>
+
+      <!-- Modal cadastro realizado com sucesso-->
+      
+      <div class="modal fade modalaviso" id="modal-aviso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <header class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Cadastro Supermercado</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+            </header>
+            <main class="modal-body">
+                  <div><h3>Cadastro efetuado com sucesso!</h3></div>
+            </main>
+            <footer class="modal-footer">
+              <button type="button" class="btn btn-secondary" id="fecharmodal" data-dismiss="modal">Fechar</button>
+              <a href="logincliente.html"><button type="button" class="btn botao-cor-especial">Login</button></a>
+            </footer>
+          </div>
+        </div>
+      </div>
+      
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="./src/js/login.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+	 <script>
+        function handleCredentialResponse(response) {
+        }
+
+        window.onload = function () {
+          google.accounts.id.initialize({
+            client_id: "335601668474-ksc38tpa56vk5u9ckn2kmgmhuhrvtp33.apps.googleusercontent.com",
+            
+            callback: handleCredentialResponse
+          });
+
+          google.accounts.id.renderButton(
+            document.getElementById("buttonDiv"),
+            { theme: "outline", width : "300px" }  // customization attributes
+          );
+
+		  
+          google.accounts.id.prompt(); // also display the One Tap dialog
+        }
+    </script>
+</body>
+</html>
