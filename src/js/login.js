@@ -58,7 +58,7 @@ botaoCadastrarCliente.addEventListener("click", function(){
                     minhaDiv.appendChild(labelElement);
                 }
                 
-            }else if(texto == "faltonome"){
+            }else if(texto == "faltanome"){
                 const minhaDiv = document.getElementById("nomecadastro");                // Definir o ID e as classes do label
                 //labelElement.id = "meuLabel";
                 if (minhaDiv.classList.contains("invalido")) {
@@ -70,7 +70,24 @@ botaoCadastrarCliente.addEventListener("click", function(){
                     //labelElement.className = "labelvermelho";
 
                     // Definir o texto do label
-                    labelElement.textContent = "Forneça um e-mail válido";
+                    labelElement.textContent = "Forneça um nome válido";
+
+                    minhaDiv.classList.add("invalido");
+                    minhaDiv.appendChild(labelElement);
+                }
+            }else if(texto == "faltacep"){
+                const minhaDiv = document.getElementById("cepcadastro");    
+                
+                if (minhaDiv.classList.contains("invalido")) {
+                    
+                }else{
+                    var labelElement = document.createElement("label");
+                    labelElement.classList.add("labelvermelho");
+                    labelElement.style.color = "red";
+                    //labelElement.className = "labelvermelho";
+
+                    // Definir o texto do label
+                    labelElement.textContent = "Forneça um cep válido";
 
                     minhaDiv.classList.add("invalido");
                     minhaDiv.appendChild(labelElement);
