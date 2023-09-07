@@ -15,6 +15,26 @@ mostrarsenha.addEventListener("click", function(){
     }
 });
 
+document.getElementById("cadastrousuario-cep").addEventListener("blur", function() {
+    const cep = document.getElementById("cadastrousuario-cep").value;
+  
+    
+    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data.erro) {
+          document.getElementById("cadastrousuario-rua").value = data.logradouro;
+          document.getElementById("cadastrousuario-bairro").value = data.bairro;
+          document.getElementById("cadastrousuario-cidade").value = data.localidade;
+        } else {
+          alert("CEP não encontrado.");
+        }
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar CEP:", error);
+      });
+  });
+  
 const botaoCadastrarCliente = document.getElementById("botaoCadastrar");
 botaoCadastrarCliente.addEventListener("click", function(){
     
@@ -97,6 +117,8 @@ botaoCadastrarCliente.addEventListener("click", function(){
         error: function(xhr, status, error) {
             console.error("Erro na requisição AJAX:", error, "xhr", xhr);
         }
+
+        
     });
 });
 
