@@ -47,11 +47,12 @@ botaoCadastrarCliente.addEventListener("click", function(){
     var u_numero = document.getElementById("cadastrousuario-numero").value;
     var u_bairro = document.getElementById("cadastrousuario-bairro").value;
     var u_senha = document.getElementById("cadastrousuario-senha").value;
+    var u_acao = "cadastro";
 
     $.ajax({
         url: '../precofacil/src/php/cadastrocliente.php',
         method:'POST',
-        data: {'nomecompleto':u_nome, 'cep':u_cep, 'rua':u_rua, 'cidade':u_cidade, 'email':u_email, 'dtnascimento':u_dtnascimento, 'numero':u_numero, 'bairro':u_bairro, 'senha':u_senha},
+        data: {'nomecompleto':u_nome, 'cep':u_cep, 'rua':u_rua, 'cidade':u_cidade, 'email':u_email, 'dtnascimento':u_dtnascimento, 'numero':u_numero, 'bairro':u_bairro, 'senha':u_senha, 'acao':u_acao},
         dataType:'json',
         success: function(texto) {            
             if(texto == 'sucesso'){
@@ -115,12 +116,34 @@ botaoCadastrarCliente.addEventListener("click", function(){
             };
         },
         error: function(xhr, status, error) {
-            console.error("Erro na requisição AJAX:", error, "xhr", xhr);
+            console.error("Erro na requisição AJAX Cadastro:", error, "xhr", xhr);
         }
 
         
     });
 });
+
+const botaoLogin = document.getElementById("botaoLogin");
+botaoLogin.addEventListener("click", function(){
+    u_acao = "login";
+    u_usuario = document.getElementById("login").value;
+    u_senha = document.getElementById("senha").value;
+
+    $.ajax({
+        url: '../precofacil/src/php/cadastrocliente.php',
+        method:'POST',
+        data: {'acao':u_acao, 'usuario':u_usuario, 'senha':u_senha},
+        dataType:'json',
+        success: function(retorno){
+            console.log(retorno);
+        },
+
+        error: function(xhr, status, error) {
+            console.error("Erro na requisição AJAX login:", error, "xhr", xhr);
+        }
+    });    
+});
+
 
 //Fazer recarregar página ao fechar modal
 $('body').on('click', '#fecharmodal', function(){
