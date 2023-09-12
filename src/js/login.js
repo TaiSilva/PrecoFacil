@@ -135,7 +135,30 @@ botaoLogin.addEventListener("click", function(){
         data: {'acao':u_acao, 'usuario':u_usuario, 'senha':u_senha},
         dataType:'json',
         success: function(retorno){
-            console.log(retorno);
+            if(retorno == "senhaValida"){
+                window.location.href='index.html';
+            }else if(retorno == "senhaInvalida"){
+                const minhaDiv = document.getElementById("inputsenha");    
+                
+                if (minhaDiv.classList.contains("invalido")) {
+                    
+                }else{
+                    var labelElement = document.createElement("label");
+                    labelElement.classList.add("labelvermelho");
+                    labelElement.style.color = "red";
+                    //labelElement.className = "labelvermelho";
+
+                    // Definir o texto do label
+                    labelElement.textContent = "Usuário ou senha incorreta";
+
+                    minhaDiv.classList.add("invalido");
+                    minhaDiv.appendChild(labelElement);
+                }
+            }else if(retorno == "sememail"){
+                console.log("sem eamil");
+            }else{
+                console.log(retorno);
+            }
         },
 
         error: function(xhr, status, error) {
@@ -144,6 +167,43 @@ botaoLogin.addEventListener("click", function(){
     });    
 });
 
+const botaoEsqueciSenha = document.getElementById("botaoesquecisenha");
+botaoEsqueciSenha.addEventListener("click", function(){
+    function gerarSenha(tamanho) {
+        const caracteresPermitidos = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@!";
+        let senha = "";
+      
+        for (let i = 0; i < tamanho; i++) {
+          const indiceAleatorio = Math.floor(Math.random() * caracteresPermitidos.length);
+          senha += caracteresPermitidos.charAt(indiceAleatorio);
+        }
+      
+        return senha;
+      }
+      
+      // Exemplo de uso para gerar uma senha de 8 caracteres
+      const senhaGerada = gerarSenha(8);
+      u_acao = "esqueciSenha";
+      u_email = document.getElementById("email-senha").value;
+
+      $.ajax({
+        url: '../precofacil/src/php/cadastrocliente.php',
+        method:'POST',
+        data: {'acao':u_acao, 'email':u_email, 'senha':senhaGerada},
+        dataType:'json',
+        success: function(retorno){
+            if(retorno == "senhaAtualizada"){
+                alert("Senha alterada! Caso o e-mail fornecido for igual ao do cadastro, irá receber um e-mail com as instruções. ");
+                    window.location.href='login.html';                
+            }
+        },
+
+        error: function(xhr, status, error) {
+            console.error("Erro na requisição AJAX login:", error, "xhr", xhr);
+        }
+    });
+      
+});
 
 //Fazer recarregar página ao fechar modal
 $('body').on('click', '#fecharmodal', function(){

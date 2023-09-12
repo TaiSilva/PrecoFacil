@@ -58,10 +58,52 @@
             echo json_encode("invalido");
         }
 
+    }else if($acao == 'login'){
+        $email = filter_var($_REQUEST['usuario'],FILTER_SANITIZE_STRING);
+        $senha = filter_var($_REQUEST['senha'],FILTER_SANITIZE_STRING);
+
+        $sql = "SELECT COUNT(*) as total, senha, email FROM usuario WHERE email = '$email'";
+        $busca = mysqli_query($conn, $sql);
+        $result = mysqli_fetch_assoc($busca);
+
+        if($result['total'] == 0){
+            echo json_encode("senhaInvalida");
+        }else if($result["senha"] == $senha){
+            echo json_encode("senhaValida");
+        }else{
+            echo json_encode("senhaInvalida");
+        } 
+    }else if($acao == 'esqueciSenha'){
+        $email = filter_var($_REQUEST['email'],FILTER_SANITIZE_STRING);
+        $senha = filter_var($_REQUEST['senha'],FILTER_SANITIZE_STRING);
+
+        $sql = "SELECT email FROM usuario WHERE email = '$email' ";
+        $busca = mysqli_query($conn, $sql);
+        $result = mysqli_fetch_assoc($busca);
+
+        if($result['email'] == $email){
+            $alteracao = "UPDATE usuario SET senha ='$senha' WHERE email = '$email'";
+            $erro = mysqli_query($conn,$alteracao);
+
+		    if(!$erro) die(mysqli_error($conn));
+	
+            $from = "email@precofacil.com.br";
+            $to = $email;
+            $subject = "Resposta Automática";
+            $mensagem = "A sua senha foi alterada para '$senha'. Por motivo de segurança é recomendado a troca de senha.";
+            $headers = "From:" . $from;
+            mail($to,$subject,$message, $headers);
+                
+            echo json_encode("senhaAtualizada");
+        }else{
+            echo json_encode("senhaAtualizada");
+        }
     }
     
     
-    
+    //validar se o email existe, se sim faz o update com a senha gerada automaticamente com js e apresentar 
+    //mensagem
+    //se não apresentar apenas a mensagem
 
     $conn->close();
 

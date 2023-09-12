@@ -44,7 +44,7 @@
                             </div>
                         
                         <div class="col d-flex justify-content-center">
-                            <form method="POST" class="px-4 py-4 rounded-4 background-form-login">
+                            <form action="" method="POST" class="px-4 py-4 rounded-4 background-form-login">
                                 <div class="label-form-login text-center">
                                     <label for=""><h4>Login</h4></label>
                                 </div>
@@ -56,7 +56,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="input-group my-4">
+                                <div class="input-group my-4" id="inputsenha">
                                     <div class="input-group-text">
                                         <input type="password" class="bg-transparent inputLogin order-first" name="senha" id="senha" size="30" maxlength="30" placeholder="Senha">
                                         <span id="mostrarSenha">
@@ -67,7 +67,7 @@
                                 <div class="col d-flex justify-content-end my-3">
                                      <span class="link-default fonte-esqueciSenha" data-bs-toggle="modal" data-bs-target="#modal-esquecisenha">Esqueci a senha</span></p>
                                 </div>
-                                <button type="submit" class="btn botao-cor-especial botao ms-3" id="botaoLogin">Entrar</button>
+                                <button type="button" class="btn botao-cor-especial botao ms-3" id="botaoLogin">Entrar</button>
                                 
                             </form>
                         </div>
@@ -104,12 +104,12 @@
         </div>
         <div class="modal-body">
             <p>Informe o e-mail cadastrado que enviaremos as instruções para redefinir sua senha.</p>
-            <input type="text" class="" name="login" id="email-modal" size="55" maxlength="32" placeholder="E-mail">
+            <input type="text" class="" name="login" id="email-senha" size="55" maxlength="32" placeholder="E-mail">
             <i class="bi bi-envelope-fill"></i>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-          <button type="button" class="btn botao-cor-especial">Confirmar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="fecharmodalsenha">Fechar</button>
+          <button type="button" class="btn botao-cor-especial" id="botaoesquecisenha">Confirmar</button>
         </div>
       </div>
     </div>
