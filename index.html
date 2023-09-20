@@ -33,13 +33,10 @@
                 </span>
 
             </div>
-
-            <div class="col d-flex justify-content-start d-none d-md-block" id="barcode-scanner">
-                <button type="submit" class="btn botao-cor-especial botao"><i class="bi bi-upc-scan">Pesquisa por código
+            <div class="col d-flex justify-content-start d-none d-md-block" id="criaLeitorCamera">
+                <button type="submit" class="btn botao-cor-especial botao" data-bs-toggle="modal" data-bs-target="#modal-camera"><i class="bi bi-upc-scan">Pesquisa por código
                         de barras</i></button>
             </div>
-
-
             <span class="d-flex align-items-end nav-item dropdown" id="exibirLogin">
                 <i class="bi bi-person-circle" data-bs-toggle="dropdown"></i>
             </span>
@@ -70,11 +67,12 @@
         </div>
 
     </nav>
+    <!-- Modal para abrir a camera da leitura de código de barras-->
     <div class="modal fade" id="modal-camera"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
           <div class="modal-content"> 
             <div id="barcode-scanner-smart" class="d-flex justify-content-center camera">
-                <video autoplay="true" preload="auto" src="" muted="true" playsinline="true" class="camera"></video>
+                <video autoplay="true" preload="auto" src="" muted="true" playsinline="true" class="camera" id="camera"></video>
                 <canvas class="drawingBuffer" width="640" height="480"></canvas>
             </div>    
             

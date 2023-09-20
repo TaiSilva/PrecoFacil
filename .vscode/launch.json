@@ -15,7 +15,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "http://localhost/precofacil/login.html",
+            "url": "http://localhost/precofacil/src/js/index.js",
             "webRoot": "${workspaceFolder}"
         }
     ]

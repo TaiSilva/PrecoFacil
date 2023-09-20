@@ -13,41 +13,16 @@ login.addEventListener('click', () =>{
     }else{
         divLogin.classList.replace('d-block','d-none');
     }
-});
-const codigobarras = document.getElementById('barcode-scanner');
+})
 
-codigobarras.addEventListener('click', () =>{
-    Quagga.init({
-        inputStream: {
-            name: "Live",
-            type: "LiveStream",
-            target: document.querySelector("#barcode-scanner"),
-            constraints: {
-                facingMode: "environment"
-            }
-        },
-        decoder: {
-            readers: ["ean_reader"]
-        }
-    }, function(err) {
-        if (err) {
-            console.error(err);
-            return;
-        }
-    });
-});
 
-const codigobarrassmart = document.getElementById('barcode-scanner-smart');
 const eventobotao = document.getElementById('eventobotaocodigo');
 
 eventobotao.addEventListener('click', () =>{
-    const resultHandler = (result) => {
-  const code = result.codeResult && result.codeResult.code;
-  if (code) {
-    console.log("Código de barras detectado:", code);
-    // Realize ações com base no código de barras detectado
-  }
-};
+  Quagga.onDetected(function (result) {
+    var code = result.codeResult.code;
+    console.log("Código de barras detectado: " + code);
+  })
       
       const config = {
         inputStream: {
@@ -64,18 +39,51 @@ eventobotao.addEventListener('click', () =>{
         frequency: 10,
         multiple: false,
         decoder: {
-          readers: ["ean_reader"], // Exemplo de leitor de código EAN
-          resultHandler: resultHandler,
+          readers: ["code_128_reader","ean_reader"], // Exemplo de leitor de código EAN
+  
         },
       };
       
       Quagga.init(config, () => {
         
         Quagga.start();
-      });
-      
-      
-            
+      });         
 });
 
-  
+const eventobotaolarge = document.getElementById('criaLeitorCamera');
+
+eventobotaolarge.addEventListener('click', () =>{
+  Quagga.onDetected(function (result) {
+    var code = result;
+    console.log("Código de barras detectado: " + code);
+  })
+    
+    const config = {
+      inputStream: {
+        name: "Live",
+        type: "LiveStream",
+        target: document.querySelector("#barcode-scanner-smart"),
+      },
+      locator: {
+        patchSize: "medium",
+        halfSample: true,
+      },
+      numOfWorkers: navigator.hardwareConcurrency || 4,
+      locate: true,
+      frequency: 10,
+      multiple: false,
+      decoder: {
+        readers: ["code_128_reader","ean_reader"], // Exemplo de leitor de código EAN
+      },
+    };
+    
+    Quagga.init(config, () => {
+      
+      Quagga.start();
+    });         
+})
+
+const fecharModal = document.getElementById('closeCameraBtn');
+fecharModal.addEventListener('click', () => {
+  Quagga.stop();
+})
