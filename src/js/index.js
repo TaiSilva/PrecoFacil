@@ -19,10 +19,10 @@ login.addEventListener('click', () =>{
 const eventobotao = document.getElementById('eventobotaocodigo');
 
 eventobotao.addEventListener('click', () =>{
-  Quagga.onDetected(function (result) {
+  Quagga.onDetected((result) => {
     var code = result.codeResult.code;
     console.log("Código de barras detectado: " + code);
-  })
+  });
       
       const config = {
         inputStream: {
@@ -39,7 +39,7 @@ eventobotao.addEventListener('click', () =>{
         frequency: 10,
         multiple: false,
         decoder: {
-          readers: ["code_128_reader","ean_reader"], // Exemplo de leitor de código EAN
+          readers: ["ean_reader"], // Exemplo de leitor de código EAN
   
         },
       };
@@ -53,10 +53,10 @@ eventobotao.addEventListener('click', () =>{
 const eventobotaolarge = document.getElementById('criaLeitorCamera');
 
 eventobotaolarge.addEventListener('click', () =>{
-  Quagga.onDetected(function (result) {
-    var code = result;
-    console.log("Código de barras detectado: " + code);
-  })
+  Quagga.onDetected((result) => {
+    var code = result.codeResult.code;
+    console.log("Código de barras detectado aletrado:" + code);
+  });
     
     const config = {
       inputStream: {
@@ -73,7 +73,7 @@ eventobotaolarge.addEventListener('click', () =>{
       frequency: 10,
       multiple: false,
       decoder: {
-        readers: ["code_128_reader","ean_reader"], // Exemplo de leitor de código EAN
+        readers: ["ean_reader"], // Exemplo de leitor de código EAN
       },
     };
     

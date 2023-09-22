@@ -15,20 +15,6 @@ border:1px solid #ff9800;
 display:block;
 width:150px;
 }
-
-.card-largura{
-	max-width: 18rem;
-}
-.img-carrossel-um{
-	object-fit: cover;
-	object-position: 0 80%;
-	height: 400px;
-}
-.img-carrossel-dois{
-	object-fit: cover;
-	height: 400px;
-}
-
 .fonte-cursive{
 	font-family: 'Lobster', cursive;
 }
@@ -44,34 +30,6 @@ width:150px;
 .botao-cor-especial:hover{
 	background-color: #4c79d3!important;
 }
-.border-cor-especial{
-	border-color: darkred;
-}
-.card-altura{
-	object-fit: cover;
-	height: 200px;
-}
-.fonte-color{
-	color: black;
-}
-.fonte-riscada{
-	text-decoration: line-through
-}
-
-.alturablusa{
-    width: 200px;
-    height: 200px;
-	
-}
-.borda-corespecialform{
-	border-right: 3px double #500d4d;
-	border-left: 3px double #500d4d;
-}
-.linha-vertical{
-    height: 350px;
-    border-right: 1px solid black;
-}
-
 .tamanho-btn{
 	width: 300px;
 }
@@ -83,76 +41,10 @@ width:150px;
 .tamanhopadrao{
 	width: 30%;
 }
-.link{
-	text-decoration:none;
-	color: black;
-}
-.link:hover{
-	color: black;
-}
-.imagemCard{
-	max-width:200px;
-    max-height:150px;
-    width: auto; 
-    height: auto;
-	object-position: 50% 25%;
-}
-.formularios{
-	max-width: 800px;
-    padding-top: 30px;
-    display: block;
-    margin: 0 auto;
-}
-.circulo{
-	border-radius: 50%;
-	border: 2px solid black;
-}
-.circulotam{
-	border-radius: 50%;
-	border: 1px solid black;
-	width: 41px;
-	height: 49px;
-	display: inline-block;
-}
-.borda-corespecial{
-	border: 3px solid #ff9800;
-}
-.corfundo{
-	background-color: white!important;
-	color: white!important;
-}
-.teste:hover{
-	background-color: #ff9800;
-}
-.login{
-	box-shadow: inset 5em 1em gold;
-}
-.form-signin {
-  max-width: 330px;
-  padding: 15px;
-  margin: 100px auto;
- /* box-shadow: 6px 6px 2px 0px orange inset;*/
-}
-.link{
-	text-decoration:none;
-	color: white;
-}
-.body-login{
-	/*background-image: url(/src/img/Fundo_login.jpg);*/
-	background-color: #fffee8;
-	
-	
-
-}
 .botao{
 	width: 250px; /* Defina a largura desejada */
 	/*height: 50px;  Defina a altura desejada */
 	display: inline-block;
-}
-.fonteblack{
-	color: black;
-	text-align: center;
-	font-weight: bold;
 }
 .botaoGoogle{
 	/*width: 250px; Defina a largura desejada */
@@ -161,46 +53,21 @@ width:150px;
 	box-shadow: 0px 2px 8px  #000000;
 	
 }
-.dropdowngrossa {
-    border-top: 5px solid orange; /* Ajuste o valor da espessura da linha conforme necessário */
-	width: 15%;
-	text-align: center;
-  }
-
-  .fontecolor{
-	color: orange;
-  }
-  .labelpersonalizado {
-    display: block;
-   /* margin-top: 90px;*/
-	text-align: center;
-	margin-right: 150px;
-  }
-  .alinhamentoCentro{
-	text-align: center;
-  }
 .inputLogin{
 	border: none;
 	border-bottom:1px solid black;
 	display: block;
 	
 }
-.icone{
-	display: inline-block;
-}
+
 i {
 	margin-left: -25px;
 	cursor: pointer;
-  }
-  
-  #text {
-	display: none;
   }
 .background-login{
 	background-color: #F7BE81;	
 	   
 }
-
 .text-login{
 	color:#ffffff;
     font-size: 18px;
@@ -256,3 +123,12 @@ i {
 	width: 0%;
 	height: 480px;
   }
+  .promo{
+	color: #FF8000;
+  }
+.cardIndex{
+	height: 250px;
+	max-width: 300px;
+	border: none;
+	box-shadow: 1px 5px 3px  lightslategray;
+}
