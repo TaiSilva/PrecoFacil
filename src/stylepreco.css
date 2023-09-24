@@ -146,11 +146,11 @@ i {
 
 .circulo-footer {
     position: absolute;
-    bottom: 0;
+    bottom: 20px;
     left: 50%; /* Centraliza horizontalmente */
     transform: translateX(-50%);
-    width: 200px; /* Largura do círculo */
-    height: 200px; /* Altura do círculo */
+    width: 100px; /* Largura do círculo */
+    height: 100px; /* Altura do círculo */
     background-color: #fff; /* Cor de fundo do círculo */
     border-radius: 50%; /* Transforma o elemento em um círculo */
 	
@@ -158,9 +158,9 @@ i {
 }
 .iconePromo{
 	position: absolute;
-	bottom: -20x;
-	left: 25%;
-	font-size: 150px;
+	bottom: -15px;
+	left: 30%;
+	font-size: 90px;
 	color: #FF8000;
 }
 .content {
