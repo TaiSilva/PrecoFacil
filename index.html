@@ -37,7 +37,7 @@
 
             </div>
             <div class="col d-flex justify-content-start d-none d-md-block" id="criaLeitorCamera">
-                <button type="submit" class="btn botao-cor-especial botao" data-bs-toggle="modal" data-bs-target="#modal-camera"><i class="bi bi-upc-scan">Pesquisa por código
+                <button type="submit" class="btn" data-bs-toggle="modal" data-bs-target="#modal-camera"><i class="bi bi-upc-scan botao-borda-especial"> Pesquisa por código
                         de barras</i></button>
             </div>
             <span class="d-flex align-items-end nav-item dropdown" id="exibirLogin">
@@ -70,6 +70,13 @@
         </div>
     </nav>
     <div class="container-fluid">
+        <div class="row d-none d-md-block">
+            <div class="col-12 mt-3 d-flex justify-content-end">
+                <button type="submit" class="btn botao-cor-especial botao" id="eventobotaocodigo" data-bs-toggle="modal" data-bs-target="#modal-camera">
+                    Adicionar promoção
+                </button>
+            </div>
+        </div>
         <div class="row">
             <div class="col-4 mt-3">
                 <hr>
@@ -85,10 +92,19 @@
                 <hr>
             </div>
         </div>
-        <div class="row justify-content-center" id="rowPromo">
-            
+        <div class="row justify-content-center mb-3" id="rowPromo">
+            <!--É preenchido através do js-->
            
         </div>
+        <footer class="fixed-bottom footer">
+            
+            <div class="circulo-footer">
+                <i class="bi bi-patch-plus-fill iconePromo"></i>
+            </div>
+            <div class="content d-flex justify-content-center">
+                
+            </div>
+        </footer>
         
     </div>
     <!-- Modal para abrir a camera da leitura de código de barras-->

@@ -132,3 +132,38 @@ i {
 	border: none;
 	box-shadow: 1px 5px 3px  lightslategray;
 }
+.botao-borda-especial{
+	border: 1px solid #FF8000;
+	border-radius: 10px;
+	padding: 5px;
+	color: #FF8000;
+}
+.footer {
+    background-color: dimgray; /* Cor de fundo do seu footer */
+    color: #fff; /* Cor do texto do footer */
+    padding: 40px;
+}
+
+.circulo-footer {
+    position: absolute;
+    bottom: 0;
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translateX(-50%);
+    width: 200px; /* Largura do círculo */
+    height: 200px; /* Altura do círculo */
+    background-color: #fff; /* Cor de fundo do círculo */
+    border-radius: 50%; /* Transforma o elemento em um círculo */
+	
+	
+}
+.iconePromo{
+	position: absolute;
+	bottom: -20x;
+	left: 25%;
+	font-size: 150px;
+	color: #FF8000;
+}
+.content {
+     /* Coloca o conteúdo do footer na frente do círculo */
+    position: relative;
+}

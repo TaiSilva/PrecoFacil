@@ -96,7 +96,6 @@ document.addEventListener("DOMContentLoaded", function() {
     dataType:'json',
     success: function(retorno){
         for(var i=0; i<retorno.length; i++ ){
-          console.log(retorno);
           var divCol = document.createElement("div");
           divCol.classList.add("col-lg-3");
           divCol.classList.add("col-md-4");
@@ -114,6 +113,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
           var divRowFilho = document.createElement("div");
           divRowFilho.classList.add("row");
+          divRowFilho.classList.add("mt-2");
           divContainerFilho.append(divRowFilho);
           var divRowFilho2 = document.createElement("div");
           divRowFilho2.classList.add("row");
@@ -126,6 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
           divContainerFilho.appendChild(divRowFilho4);
           var divRowFilho5 = document.createElement("div");
           divRowFilho5.classList.add("row");
+          divRowFilho5.classList.add("mt-3");
           divContainerFilho.appendChild(divRowFilho5);
 
           var divColFilho = document.createElement("div");
@@ -201,6 +202,9 @@ document.addEventListener("DOMContentLoaded", function() {
           iconefilho2.classList.add("mx-1");
           divColFilho5.appendChild(iconefilho2);
 
+          var spanFilho5 = document.createElement("span");
+          spanFilho5.innerHTML = "1km";
+          divColFilho5.appendChild(spanFilho5);
         }
         
     },
