@@ -127,8 +127,6 @@ i {
 	color: #FF8000;
   }
 .cardIndex{
-	height: 250px;
-	max-width: 300px;
 	border: none;
 	box-shadow: 1px 5px 3px  lightslategray;
 }
@@ -166,4 +164,12 @@ i {
 .content {
      /* Coloca o conteúdo do footer na frente do círculo */
     position: relative;
+}
+.sob{
+	position: absolute;
+	z-index: 9999;
+	background-color: white;
+}
+.tirarBackground{
+	background-color: white;
 }

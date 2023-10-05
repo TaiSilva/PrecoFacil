@@ -1,5 +1,5 @@
 <?php
-    header('Content-Type: application/json');
+   // header('Content-Type: application/json');
 
        $servername = "localhost"; // Nome do servidor MySQL
        $username = "root"; // Nome de usuário do banco de dados
@@ -14,20 +14,23 @@
            die("Conexão falhou: " . $conn->connect_error);
        }
 
-       $sql = "SELECT TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%H') AS horas, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%i') AS minutos, valor, imagem, descricao, supermercado FROM promocao WHERE DATE_FORMAT(dtinc, '%Y-%m-%d') BETWEEN (CURRENT_DATE - 9) AND CURRENT_DATE";
-        // Faça a consulta SQL e obtenha os resultados.
-$resultado = mysqli_query($conn, $sql);
+    $acao = $_REQUEST['acao'];
 
-// Inicialize um array para armazenar os resultados.
-$resultadosArray = array();
+    if($acao == "ultimasPromo"){
+      $sql = "SELECT TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%H') AS horas, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%i') AS minutos, valor, imagem, descricao, supermercado FROM promocao ORDER BY dtinc LIMIT 9";
+      // Faça a consulta SQL e obtenha os resultados.
+    $resultado = mysqli_query($conn, $sql);
 
-while ($row = mysqli_fetch_assoc($resultado)) {
-    // Converta as horas e minutos em inteiros.
-    $horas = intval($row['horas']);
-    $minutos = intval($row['minutos']);
+    // Inicialize um array para armazenar os resultados.
+    $resultadosArray = array();
 
-    // Adicione os valores ao array de resultados.
-    $resultadoItem = array(
+    while ($row = mysqli_fetch_assoc($resultado)) {
+      // Converta as horas e minutos em inteiros.
+      $horas = intval($row['horas']);
+      $minutos = intval($row['minutos']);
+
+      // Adicione os valores ao array de resultados.
+      $resultadoItem = array(
         'horas' => $horas,
         'minutos' => $minutos,
         'descricao' => $row['descricao'],
@@ -36,43 +39,30 @@ while ($row = mysqli_fetch_assoc($resultado)) {
         'supermercado' => $row['supermercado']
     );
 
-    array_push($resultadosArray, $resultadoItem);
+  array_push($resultadosArray, $resultadoItem);
 }
-
-// Converta o array de resultados em JSON.
 $jsonResultados = json_encode($resultadosArray);
 
 // Envie o JSON para o JavaScript.
 echo $jsonResultados;
+    }
+       
 
-// Feche a conexão com o banco de dados
 
-//conexão api do código de barras
-/*$url = 'https://api.cosmos.bluesoft.com.br/gtins/7891910000197.json';
-      $agent = 'Cosmos-API-Request';
-      $headers = array(
-        "Content-Type: application/json",
-        "X-Cosmos-Token: 8bgYANVhQ8-o8O1X7m9rbg"
-      );
+if($acao == 'cadastraPromocao'){
+  $nomeMercado = filter_var($_REQUEST['supermercado'],FILTER_SANITIZE_STRING);
+  $endereco = filter_var($_REQUEST['enderecoMercado'],FILTER_SANITIZE_STRING);
+  $dataInc = filter_var($_REQUEST['dataInicio'],FILTER_SANITIZE_STRING);
+  $dataFim = filter_var($_REQUEST['dataFim'],FILTER_SANITIZE_STRING);
+  $codigoBarras = filter_var($_REQUEST['codigoBarras'],FILTER_SANITIZE_STRING);
+  $descProduto = filter_var($_REQUEST['descricaoProduto'],FILTER_SANITIZE_STRING);
+  $imgProduto = filter_var($_REQUEST['imagemProduto'],FILTER_SANITIZE_STRING);
+  $valor = filter_var($_REQUEST['valorProduto'],FILTER_SANITIZE_STRING);
 
-      $curl = curl_init($url);
-      curl_setopt($curl, CURLOPT_USERAGENT, $agent);
-      curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-      curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-      curl_setopt($curl, CURLOPT_FAILONERROR, true);
+  $sql = "INSERT INTO promocao (imagem, valor, descricao, supermercado, enderecomercado, validadeinc, validadefim, codigobarras) VALUES ('$imgProduto', '$valor', '$descProduto', '$nomeMercado', '$endereco', '$dataInc', '$dataFim', '$codigoBarras')";
+  $erro = mysqli_query($conn,$sql);
+	if(!$erro) die(mysqli_error($conn));
 
-      $data = curl_exec($curl);
-      if ($data === false || $data == NULL) {
-        var_dump(curl_error($curl));
-      } else {
-        $object = json_decode($data);
-
-        echo "<script>console.log($data)</script>";
-      }
-
-      curl_close($curl);*/
-
-    $conn->close();
-        //echo "<script>console.log($result)</script>";
+  echo json_encode("sucesso");
+}
 ?>

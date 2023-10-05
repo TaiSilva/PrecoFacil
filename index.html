@@ -16,7 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
-  
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 </head>
 
@@ -37,7 +37,8 @@
 
             </div>
             <div class="col d-flex justify-content-start d-none d-md-block" id="criaLeitorCamera">
-                <button type="submit" class="btn" data-bs-toggle="modal" data-bs-target="#modal-camera"><i class="bi bi-upc-scan botao-borda-especial"> Pesquisa por código
+                <button type="submit" class="btn" data-bs-toggle="modal" data-bs-target="#modal-camera"><i
+                        class="bi bi-upc-scan botao-borda-especial"> Pesquisa por código
                         de barras</i></button>
             </div>
             <span class="d-flex align-items-end nav-item dropdown" id="exibirLogin">
@@ -54,17 +55,20 @@
                     </span>
                 </div>
                 <div class="col d-flex justify-content-center d-block d-md-none mt-3">
-                    <button type="submit" class="btn botao-cor-especial botao" id="eventobotaocodigo" data-bs-toggle="modal" data-bs-target="#modal-camera">
+                    <button type="submit" class="btn botao-cor-especial botao" id="eventobotaocodigo"
+                        data-bs-toggle="modal" data-bs-target="#modal-camera">
                         <i class="bi bi-upc-scan">Pesquisa por código de barras</i>
                     </button>
-                </div>                
+                </div>
             </div>
 
 
         </div>
         <div id="divLogin" class="container-fluid mt-3 d-flex justify-content-end d-none">
             <ul class="list-group list-group-horizontal">
-                <a href="login.html"><li class="list-group-item">Entrar ou Cadastrar</li></a>
+                <a href="login.html">
+                    <li class="list-group-item">Entrar ou Cadastrar</li>
+                </a>
                 <!-- Adicione mais itens conforme necessário -->
             </ul>
         </div>
@@ -72,7 +76,8 @@
     <div class="container-fluid">
         <div class="row d-none d-md-block">
             <div class="col-12 mt-3 d-flex justify-content-end">
-                <button type="submit" class="btn botao-cor-especial botao" id="eventobotaocodigo" data-bs-toggle="modal" data-bs-target="#modal-camera">
+                <button type="submit" class="btn botao-cor-especial botao" id="btnInserirPromoGrande" data-bs-toggle="modal"
+                    data-bs-target="#modalInserirPromocao">
                     Adicionar promoção
                 </button>
             </div>
@@ -83,9 +88,9 @@
             </div>
             <div class="col-4 promo d-flex justify-content-center mt-3">
                 <p>
-                    <h2>
-                        Últimas Promoções
-                    </h2>
+                <h2>
+                    Últimas Promoções
+                </h2>
                 </p>
             </div>
             <div class="col-4 mt-3">
@@ -94,38 +99,148 @@
         </div>
         <div class="row justify-content-center mb-3" id="rowPromo">
             <!--É preenchido através do js-->
-           
+
         </div>
         <footer class="fixed-bottom footer d-block d-md-none">
-            
+
             <div class="circulo-footer">
-                <i class="bi bi-patch-plus-fill iconePromo"></i>
+                <button class="btn" id="btnInserirPromoPeq" data-bs-toggle="modal" data-bs-target="#modalInserirPromocao">
+                    <i class="bi bi-plus-circle-fill iconePromo"></i>
+                </button>
             </div>
             <div class="content d-flex justify-content-center">
-                
+
             </div>
         </footer>
-        
+
     </div>
-    <!-- Modal para abrir a camera da leitura de código de barras-->
-    <div class="modal fade" id="modal-camera"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    
+    <!--Modal para cadastrar promoção-->
+    <div class="modal fade tirarBackground" id="modalInserirPromocao" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
-          <div class="modal-content"> 
-            <div id="barcode-scanner-smart" class="d-flex justify-content-center camera">
-                <video autoplay="true" preload="auto" src="" muted="true" playsinline="true" class="camera" id="camera"></video>
-                <canvas class="drawingBuffer" width="640" height="480"></canvas>
-            </div>    
-            
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeCameraBtn">Fechar</button>
+            <div class="modal-content">
+                <form class="container">
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-center mt-5">Cadastrar promoção</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12" id="divLabelSuper">
+                            <label for="" class="form-label mt-3" id="labelSupermercado">Supermercado</label>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" name="" id="inputSupermercado" class="form-control"
+                                placeholder="Começe a digitar...">
+                            <div id="suggestions" class="sob"></div>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" name="" id="inputEnderecoMercado" class="form-control" placeholder=""
+                                disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12" id="divVencimento">
+                            <label for="" class="form-label mt-3">Período de início e fim da promoção</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="date" name="" id="dataInc" class="form-control">
+                        </div>
+                        <div class="col-6">
+                            <input type="date" name="" id="dataFim" class="form-control">
+                        </div>
+
+                        <div class="col-12">
+                            <label for="checkDataPromo">Não sei informar</label>
+                            <input type="checkbox" id="checkDataPromo">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12" id="divCodBarra">
+                            <label for="" class="form-label mt-3">Código de barras</label>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" name="" id="input-codigodig" class="form-control">
+                        </div>
+                        <div class="col-6">
+                            <button type="button" class="btn botao-borda-especial" id="lerCodeBar" data-bs-target="#modal-camera" data-bs-toggle="modal">Ler código de barras</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="" class="form-label mt-3">Descrição</label>
+                        </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control" id="input-descricao">
+                        </div>
+                        <div class="col-12">
+                            <img src="" alt="" id="imgCad">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12" id="divLabelValor">
+                            <label for="" class="form-label mt-3">Valor</label>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" id="valorPromo">
+                        </div>
+                    </div>
+
+                </form>
+                <div class="modal-footer tirarBackground mb-5">
+                    <button type="button" class="btn botao-borda-especial" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn botao-cor-especial" id="btnCadPromo">Cadastrar</button>
                 </div>
-         
+
+            </div>
         </div>
     </div>
+    <!-- Modal cadastro realizado com sucesso-->
+
+    <div class="modal fade modalaviso" id="modal-aviso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <main class="modal-body">
+                    <div>
+                        <h3>Cadastro efetuado com sucesso!</h3>
+                    </div>
+                </main>
+                <footer class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="fecharmodal"
+                        data-dismiss="modal">Fechar</button>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <!-- Modal para abrir a camera da leitura de código de barras-->
+    <div class="modal fade" id="modal-camera" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div id="barcode-scanner-smart" class="d-flex justify-content-center camera">
+                    <video autoplay="true" preload="auto" src="" muted="true" playsinline="true" class="camera"
+                        id="camera"></video>
+                    <canvas class="drawingBuffer" width="640" height="480"></canvas>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        id="closeCameraBtn">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
     <script src="./src/js/index.js"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoXrfx0hUavs26p_Nbj3Av8DSnJRbjYeU&callback=initMap&libraries=places&v=weekly"
+        defer></script>
+
 </body>
 
 </html>
