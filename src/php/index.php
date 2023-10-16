@@ -17,7 +17,7 @@
     $acao = $_REQUEST['acao'];
 
     if($acao == "ultimasPromo"){
-      $sql = "SELECT TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%H') AS horas, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%i') AS minutos, valor, imagem, descricao, supermercado FROM promocao ORDER BY dtinc LIMIT 9";
+    $sql = "SELECT TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%H') AS horas, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%i') AS minutos, valor, imagem, descricao, supermercado, codigo FROM promocao ORDER BY dtinc LIMIT 9";
       // Faça a consulta SQL e obtenha os resultados.
     $resultado = mysqli_query($conn, $sql);
 
@@ -36,7 +36,8 @@
         'descricao' => $row['descricao'],
         'valor' => $row['valor'],
         'imagem' => $row['imagem'],
-        'supermercado' => $row['supermercado']
+        'supermercado' => $row['supermercado'],
+        'codigo' => $row['codigo']
     );
 
   array_push($resultadosArray, $resultadoItem);

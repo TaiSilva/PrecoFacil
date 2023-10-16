@@ -21,33 +21,30 @@
 </head>
 
 <body>
-    <!--<nav class="navbar navbar-light bg-light">-->
-        <div class="container-fluid py-3 bg-light">
-            <div class="row">
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
 
-            <div class="col-3 d-flex justify-content-start">
-                <a class="navbar-brand"><img src="./src/img/logoOficial.png" alt="" width="130px"></a>
-            </div>
+            <a class="navbar-brand"><img src="./src/img/logoOficial.png" alt="" width="130px"></a>
 
-            <div class="col-3 d-flex justify-content-end">
+            <div class="col d-flex justify-content-center">
+
+
                 <input type="text" class="d-flex input-buscarpromo me-2 rounded-3 d-none d-md-block"
-                    placeholder="Buscar produto pela descrição" id="inputBuscarPromoPorDesc">
-                    <i class="bi bi-search d-none d-md-block mt-2" id="btnBuscarPromoPorDesc"></i>
+                    placeholder="Buscar Produto">
+                <span class="d-flex align-items-center">
+                    <i class="bi bi-search d-none d-md-block"></i>
+                </span>
 
             </div>
-            <div class="col-3 d-flex justify-content-end d-none d-md-block" id="criaLeitorCamera">
-                <button type="submit" class="btn" data-bs-toggle="modal" data-bs-target="#modal-camera">
-                    <i class="bi bi-upc-scan botao-borda-especial"> Buscar produto por códigode barras</i>
-                </button>
+            <div class="col d-flex justify-content-start d-none d-md-block" id="criaLeitorCamera">
+                <button type="submit" id="btnPesquisaCodBarras-listarPromo" class="btn" data-bs-toggle="modal" data-bs-target="#modal-camera"><i
+                        class="bi bi-upc-scan botao-borda-especial"> Pesquisa por código
+                        de barras</i></button>
             </div>
-            <div class="col-3 d-flex justify-content-end">
-                <div class="d-flex align-items-end" id="spanNomeUsuario" style="display: none;">
-                </div>
-                <i class="bi bi-person-circle" data-bs-toggle="dropdown" id="exibirLogin"></i>
-                
-            </div>
-            
-        </div>
+            <span class="d-flex align-items-end nav-item dropdown" id="exibirLogin">
+                <i class="bi bi-person-circle" data-bs-toggle="dropdown"></i>
+            </span>
+
 
             <div class="row input-tam-pequeno mt-3 d-block d-md-none">
                 <div class="col d-flex justify-content-center">
@@ -68,15 +65,14 @@
 
         </div>
         <div id="divLogin" class="container-fluid mt-3 d-flex justify-content-end d-none">
-            <ul class="list-group list-group-horizontal" id="ElementoEntrar">
+            <ul class="list-group list-group-horizontal">
                 <a href="login.html">
-                    <li class="list-group-item" id="Entrar">Entrar ou Cadastrar</li>
+                    <li class="list-group-item">Entrar ou Cadastrar</li>
                 </a>
-                <li class="list-group-item" id="Sair">Sair</li>
                 <!-- Adicione mais itens conforme necessário -->
             </ul>
         </div>
-    <!--</nav>-->
+    </nav>
     <div class="container-fluid">
         <div class="row d-none d-md-block">
             <div class="col-12 mt-3 d-flex justify-content-end">
@@ -86,28 +82,22 @@
                 </button>
             </div>
         </div>
-        <div class="container" id="containerUltimasPromo">
-            <div class="row">
-                <div class="col-4 mt-3">
-                    <hr>
-                </div>
-                <div class="col-4 promo d-flex justify-content-center mt-3">
-                    <p>
-                    <h2>
-                        Últimas Promoções
-                    </h2>
-                    </p>
-                </div>
-                <div class="col-4 mt-3">
-                    <hr>
-                </div>
+        <div class="row">
+            <div class="col-4 mt-3">
+                <hr>
             </div>
-            <div class="row justify-content-center mb-3" id="rowPromo">
-                <!--É preenchido através do js-->
-    
+            <div class="col-4 promo d-flex justify-content-center mt-3" id="divPromocoes">
+                <h2>Listar Promoções</h2>
+            </div>
+            <div class="col-4 mt-3">
+                <hr>
             </div>
         </div>
-        
+        <div class="row justify-content-center mb-3" id="listarPromo">
+            
+            <!--É preenchido através do js-->
+
+        </div>
         <footer class="fixed-bottom footer d-block d-md-none">
 
             <div class="circulo-footer">
@@ -226,7 +216,7 @@
     <div class="modal fade" id="modal-camera" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
-                <div id="barcode-scanner-smart" class="d-flex justify-content-center camera">
+                <div id="barcode-scanner-smart-listarPromo" class="d-flex justify-content-center camera">
                     <video autoplay="true" preload="auto" src="" muted="true" playsinline="true" class="camera"
                         id="camera"></video>
                     <canvas class="drawingBuffer" width="640" height="480"></canvas>
@@ -243,7 +233,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
-    <script src="./src/js/index.js"></script>;
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoXrfx0hUavs26p_Nbj3Av8DSnJRbjYeU&callback=initMap&libraries=places&v=weekly"
         defer></script>

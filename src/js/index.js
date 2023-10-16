@@ -21,7 +21,7 @@ const eventobotao = document.getElementById('eventobotaocodigo');
 eventobotao.addEventListener('click', () => {
   Quagga.onDetected((result) => {
     var code = result.codeResult.code;
-    console.log("Código de barras detectado: " + code);
+    console.log("Código de barras detectado:" + code);
   });
 
   const config = {
@@ -55,8 +55,12 @@ const eventobotaolarge = document.getElementById('criaLeitorCamera');
 eventobotaolarge.addEventListener('click', () => {
   Quagga.onDetected((result) => {
     var code = result.codeResult.code;
-    
-    console.log("Código de barras detectado aletrado:" + code);
+    var acao = "buscarPorCod";
+    Quagga.stop();
+    $('#modal-camera').modal('hide');
+    ajaxListarPromocao(acao,code);
+
+    console.log("Código de barras detectado tai aletrado:" + code);
   });
 
   const config = {
@@ -84,7 +88,124 @@ eventobotaolarge.addEventListener('click', () => {
   });
 })
 
+document.getElementById("btnBuscarPromoPorDesc").addEventListener("click", function(){
+  var code = document.getElementById("inputBuscarPromoPorDesc").value;
+  var acao = "buscarPorDesc";
 
+  ajaxListarPromocao(acao, code);
+
+})
+
+function ajaxListarPromocao(acao,code) {
+  $.ajax({
+    url: '../precofacil/src/php/promocao.php',
+    method: 'GET',
+    data: {'acao':acao, 'codigo': code },
+    dataType: 'json',
+    success: function (retorno) {
+      if (retorno.length != 0) {
+        var conteudoHTML = `
+              <div class="row">
+                <div class="col-4 mt-3">
+                  <hr>
+                </div>
+                <div class="col-4 promo d-flex justify-content-center mt-3">
+                  <h2>
+                    Lista de Resultados
+                  </h2>
+                </div>
+                <div class="col-4 mt-3">
+                  <hr>
+                </div>
+              </div>
+              <div class="row justify-content-center mb-3" id="rowPromo">
+                ${cardListarPromo(retorno)}
+              </div>
+            </div>  
+            `
+
+        //paginaBusca.write(conteudoHTML);
+        //paginaBusca.close();
+        function cardListarPromo(retorno) {
+          var conteudoParteHTML = "";
+          for (var i = 0; i < retorno.length; i++) {
+            conteudoParteHTML += `
+                    <div class="col-lg-4 col-md-3 d-flex justify-content-center mt-3 mx-1 cardIndex">
+                     <div class="container">
+                       <div class="row mt-2">
+                         <div class="col d-flex justify-content-center" style="height:50px">
+                           <span>
+                             ${retorno[i].supermercado}
+                           </span>
+                         </div>
+                       </div>
+                       <div class="row">
+                         <img class="mx-auto d-block img-fluid rounded" src="${retorno[i].imagem}" style="max-height:100px; max-width:100px">
+                       </div>
+                       <div class="row">
+                         <div class="col d-flex justify-content-center fw-bold">
+                           <span>
+                             ${retorno[i].descricao}
+                           </span>
+                         </div>
+                       </div>
+                       <div class="row">
+                         <div class="col d-flex justify-content-center fw-bold">
+                           <span style="color: green;">
+                             ${retorno[i].valor}
+                           </span>
+                         </div>
+                       </div>
+                       <div class="row mt-3">
+                         <div class="col d-flex justify-content-start">
+                           <i class="bi bi-clock mx-1">
+                           </i>
+                           <span>
+                             ${buscaDiaHora(retorno[i].horas)}
+                           </span>
+                         </div>
+                         <div class="col d-flex justify-content-end">
+                           <i class="bi bi-geo-alt-fill mx-1">
+                           </i>
+                           <span>
+                             "aqui KM"
+                           </span>
+                         </div>
+                       </div>
+                     </div>
+                   </div>`
+          }
+          return conteudoParteHTML;
+        }
+        function buscaDiaHora(horas) {
+          if (horas >= 24) {
+            const dia = (horas / 24);
+            if (dia == 1) {
+              return "há " + parseInt(dia) + " dia";
+            } else {
+              return "há " + parseInt(dia) + " dias";
+            }
+          } else if (horas != 0) {
+            return "há " + horas + " horas";
+          }
+
+        }
+        document.getElementById("containerUltimasPromo").innerHTML = conteudoHTML;
+      } else {
+        conteudoHTML = `
+          Não encontramos promoções cadastradas para este produto.
+        `
+        const containerModificar = document.getElementById("containerUltimasPromo");
+        containerModificar.innerHTML = conteudoHTML;
+        containerModificar.style.color = "#7b7b7b";
+      }
+    },
+
+    error: function (xhr, status, error) {
+      console.error("Erro na requisição AJAX no index:", error, "xhr", xhr);
+    }
+  });
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   u_acao = "ultimasPromo";
@@ -139,6 +260,12 @@ document.addEventListener("DOMContentLoaded", function () {
         spanFilho.innerHTML = retorno[i].supermercado;
         divColFilho.appendChild(spanFilho);
 
+        var spanFilhoKey = document.createElement("span");
+        spanFilhoKey.innerHTML = retorno[i].codigo;
+        spanFilhoKey.style.display = "none";
+        spanFilhoKey.setAttribute("id","cod");
+        divColFilho.appendChild(spanFilhoKey);
+
         var imgFilho = document.createElement("img");
         imgFilho.classList.add("mx-auto");
         imgFilho.classList.add("d-block");
@@ -183,14 +310,14 @@ document.addEventListener("DOMContentLoaded", function () {
         divColFilho4.appendChild(icone);
         var spanFilho4 = document.createElement("span");
 
-        if(retorno[i].horas >= 24){
-          const dia = (retorno[i].horas/24);
-          if(dia == 1){
+        if (retorno[i].horas >= 24) {
+          const dia = (retorno[i].horas / 24);
+          if (dia == 1) {
             spanFilho4.innerHTML = "há " + parseInt(dia) + " dia";
-          }else{
+          } else {
             spanFilho4.innerHTML = "há " + parseInt(dia) + " dias";
           }
-        }else if (retorno[i].horas != 0) {
+        } else if (retorno[i].horas != 0) {
           spanFilho4.innerHTML = "há " + retorno[i].horas + " horas";
         } else {
           spanFilho4.innerHTML = "há " + retorno[i].minutos + " minutos";
@@ -341,7 +468,7 @@ document.getElementById("btnCadPromo").addEventListener("click", function () {
       inputSuper.style.border = "1px solid red";
     }
 
-  }else{
+  } else {
     var u_acao = "cadastraPromocao";
     var u_supermercado = inputSuper.value;
     var u_enderecoMercado = document.getElementById("inputEnderecoMercado").value;
@@ -361,11 +488,11 @@ document.getElementById("btnCadPromo").addEventListener("click", function () {
         dataInicio.style.border = "1px solid red";
         dataFinal.style.border = "1px solid red";
       }
-    }else{
+    } else {
       var u_dataInc = dataInicio.value;
       var u_dataFim = dataFinal.value;
     }
-  }else{
+  } else {
     var u_dataInc = null;
     var u_dataFim = null;
   }
@@ -382,7 +509,7 @@ document.getElementById("btnCadPromo").addEventListener("click", function () {
       codBarCode.style.border = "1px solid red";
     }
 
-  }else{
+  } else {
     var u_codigoBarCode = codBarCode.value;
     var u_descricaoProd = document.getElementById("input-descricao").value;
     var u_imagemProd = document.getElementById("imgCad").src;
@@ -400,29 +527,31 @@ document.getElementById("btnCadPromo").addEventListener("click", function () {
       valor.style.border = "1px solid red";
     }
 
-  }else{
+  } else {
     var u_valor = valor.value;
   }
   $.ajax({
     url: '../precofacil/src/php/index.php',
-    method:'POST',
-    data: {'acao': u_acao, 'supermercado': u_supermercado, 'enderecoMercado':u_enderecoMercado,'dataInicio':u_dataInc,'dataFim':u_dataFim,
-      'codigoBarras':u_codigoBarCode, 'descricaoProduto':u_descricaoProd, 'imagemProduto':u_imagemProd, 'valorProduto':u_valor},
-    dataType:'json',
-    success: function(retorno){
-       if(retorno == "sucesso"){
-          $('#modal-aviso').modal('show');
-        }
+    method: 'POST',
+    data: {
+      'acao': u_acao, 'supermercado': u_supermercado, 'enderecoMercado': u_enderecoMercado, 'dataInicio': u_dataInc, 'dataFim': u_dataFim,
+      'codigoBarras': u_codigoBarCode, 'descricaoProduto': u_descricaoProd, 'imagemProduto': u_imagemProd, 'valorProduto': u_valor
+    },
+    dataType: 'json',
+    success: function (retorno) {
+      if (retorno == "sucesso") {
+        $('#modal-aviso').modal('show');
+      }
     },
 
-    error: function(xhr, status, error) {
-        console.error("Erro na requisição AJAX login:", error, "xhr", xhr);
+    error: function (xhr, status, error) {
+      console.error("Erro na requisição AJAX login:", error, "xhr", xhr);
     }
-});
+  });
 })
-$('body').on('click', '#fecharmodal', function(){
-  window.location.href='index.html';
-  
+$('body').on('click', '#fecharmodal', function () {
+  window.location.href = 'index.html';
+
 });
 $('#modalInserirPromocao').on('shown.bs.modal', function () {
   // Obtém o elemento input pelo ID
@@ -431,7 +560,7 @@ $('#modalInserirPromocao').on('shown.bs.modal', function () {
   // Define o foco no input
   inputElement.focus();
 });
-document.getElementById("lerCodeBar").addEventListener("click", function(){
+document.getElementById("lerCodeBar").addEventListener("click", function () {
   Quagga.onDetected((result) => {
     var code = result.codeResult.code;
     document.getElementById("input-codigodig").value = code;
@@ -466,3 +595,88 @@ document.getElementById("lerCodeBar").addEventListener("click", function(){
     Quagga.start();
   });
 })
+
+document.addEventListener("DOMContentLoaded", function () {
+  u_acao = "verificarAcesso";
+  $.ajax({
+    url: '../precofacil/src/php/cadastrocliente.php',
+    method: 'GET',
+    data: { 'acao': u_acao},
+    dataType: 'json',
+    success: function (retorno) {
+      if(retorno['resultado'] == "logado"){
+        const spanOla = document.createElement("span");
+        spanOla.innerHTML = "Olá, " + retorno.usuario;
+        const divOla = document.getElementById("spanNomeUsuario");
+        divOla.appendChild(spanOla);
+        divOla.style.display = "block";
+        document.getElementById("Entrar").style.display = "none";
+        document.getElementById("Sair").style.display = "block";
+      }else{
+        document.getElementById("Sair").style.display = "none";
+      }
+      //no index js chamar o cadastrocliente php passando acao como verificasessao e verificar se está logado
+      // e apos criar o ola fulano no index html.
+
+    },
+
+    error: function (xhr, status, error) {
+      console.error("Erro na requisição AJAX no Sair:", error, "xhr", xhr);
+    }
+  });
+})
+
+
+document.getElementById('Sair').addEventListener("click", function(){
+  const u_acao = "sair";
+  $.ajax({
+    url: '../precofacil/src/php/cadastrocliente.php',
+    method: 'GET',
+    data: { 'acao': u_acao},
+    dataType: 'json',
+    success: function (retorno) {
+      if(retorno == "sucesso"){
+        window.location.href = "index.html";
+      }
+     
+    },
+
+    error: function (xhr, status, error) {
+      console.error("Erro na requisição AJAX no index:", error, "xhr", xhr);
+    }
+  });
+})
+
+document.getElementById('btnInserirPromoGrande').addEventListener("click", function(){
+  u_acao = "verificarAcesso";
+  $.ajax({
+    url: '../precofacil/src/php/cadastrocliente.php',
+    method: 'GET',
+    data: { 'acao': u_acao},
+    dataType: 'json',
+    success: function (retorno) {
+      console.log(retorno);
+      if(retorno == "negativo"){
+        alert("Favor realizar login");
+        $('#modalInserirPromocao').modal('dispose');
+        window.location.href = "login.html";
+      }
+     
+    },
+
+    error: function (xhr, status, error) {
+      console.error("Erro na requisição AJAX no Verificar Login:", error, "xhr", xhr);
+    }
+  });
+ 
+})
+
+$('#rowPromo').on('click', '.cardIndex', function() {
+  var codElement = $(this).find('#cod');
+  var codValue = codElement.text();
+  console.log('Código:', codValue);
+
+  window.location.href = 'detalheProduto.html?codigo=' + codValue;
+
+//fazer pagina html para apresentar os detalhes do produto. 
+});

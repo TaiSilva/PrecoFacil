@@ -137,6 +137,7 @@ botaoLogin.addEventListener("click", function(){
         success: function(retorno){
             if(retorno == "senhaValida"){
                 window.location.href='index.html';
+                
             }else if(retorno == "senhaInvalida"){
                 const minhaDiv = document.getElementById("inputsenha");    
                 

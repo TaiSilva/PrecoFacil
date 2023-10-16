@@ -103,6 +103,25 @@
         }else{
             echo json_encode("senhaAtualizada");
         }
+    }else if($acao == "verificarAcesso"){
+        session_start();
+        if(@$_SESSION['logado'] == "logado"){
+            $arrayRetorno = array();
+            $arrayRetorno = array(
+                'resultado' => $_SESSION['logado'],
+                'usuario' => $_SESSION['usuario']
+
+            );
+            $retornoArray = json_encode($arrayRetorno);
+            echo $retornoArray;
+        }else{
+            echo json_encode("negativo");
+        }
+    }else if($acao == "sair"){
+        session_start();
+        session_destroy();
+
+        echo json_encode("sucesso");
     }
     $conn->close();
 

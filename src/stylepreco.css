@@ -173,3 +173,14 @@ i {
 .tirarBackground{
 	background-color: white;
 }
+.containerNavBar{
+	background-color: #7b7b7b;
+}
+.descricaoDetalhe{
+	height: 50px;
+	max-width: 100%;
+	border: none;
+	border-radius: 5px;
+	box-shadow: 0px 2px 8px  #000000;
+	background-color: rgb(226, 225, 225);
+}
