@@ -505,9 +505,23 @@ document.getElementById("input-codigodig").addEventListener("blur", function () 
       imgProduto.style.maxHeight = "150px";
       imgProduto.style.maxWidth = "150px";
       document.getElementById("input-descricao").disabled = true;
+      if(document.getElementById("divInput-codigodig").classList.contains("invalido")){
+        document.getElementById("labelCodigoDig").style.display = "none";
+      }
     })
     .catch(error => {
       // Lide com erros de solicitação
+      const divCodigoDig = document.getElementById("divInput-codigodig");
+      if(!divCodigoDig.classList.contains("invalido")){
+        const labelCodigodig = document.createElement("label");
+        labelCodigodig.setAttribute("id","labelCodigoDig");
+        labelCodigodig.style.color = "red";
+        labelCodigodig.innerHTML = "Código de barra incorreto. Realize a leitura novamente.";
+        divCodigoDig.appendChild(labelCodigodig);
+        divCodigoDig.classList.add("invalido");
+        
+      }
+
       console.error("Erro: " + error);
     });
 
