@@ -75,8 +75,8 @@
         echo $jsonResultados;
     }else if($acao == "detalheProd"){
         $codigoProd = filter_var($_REQUEST['codigo'],FILTER_SANITIZE_STRING);
-        $sql = "SELECT COUNT(*) AS total, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%H') AS horas, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%i') AS minutos, valor, imagem, descricao, supermercado, enderecomercado, validadeinc, DATE_FORMAT(validadefim, '%d-%m-%y') AS validadefim
-         FROM promocao WHERE codigo = $codigoProd";
+        $sql = "SELECT COUNT(*) AS total, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%H') AS horas, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%i') AS minutos, valor, imagem, descricao, supermercado, enderecomercado, validadeinc, DATE_FORMAT(validadefim, '%d-%m-%y') AS validadefim,
+         latitudemercado, longitudemercado FROM promocao WHERE codigo = $codigoProd";
         $busca = mysqli_query($conn, $sql);
         $result = mysqli_fetch_assoc($busca);
         //$string = implode(', ', $result);

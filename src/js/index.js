@@ -207,17 +207,68 @@ function ajaxListarPromocao(acao,code) {
   });
 }
 
+function calcularDistancia(origem, destino, callback) {
+  const service = new google.maps.DistanceMatrixService();
+
+  const request = {
+      origins: [origem],
+      destinations: [destino],
+      travelMode: google.maps.TravelMode.DRIVING,
+      unitSystem: google.maps.UnitSystem.METRIC,
+  };
+
+  service.getDistanceMatrix(request, function (response, status) {
+      if (status === 'OK') {
+          const distancia = response.rows[0].elements[0].distance.text;
+          callback(distancia);
+      } else {
+          console.error('Erro ao calcular a distância:', status);
+          callback(null); // Indicar que houve um erro
+      }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   u_acao = "ultimasPromo";
   $.ajax({
-    url: '../precofacil/src/php/index.php',
-    method: 'GET',
-    data: { 'acao': u_acao },
-    dataType: 'json',
-    success: function (retorno) {
-      for (var i = 0; i < retorno.length; i++) {
-        var divCol = document.createElement("div");
-        divCol.classList.add("col-lg-3");
+      url: '../precofacil/src/php/index.php',
+      method: 'GET',
+      data: { 'acao': u_acao },
+      dataType: 'json',
+      success: function (retorno) {
+          if ("geolocation" in navigator) {
+              navigator.geolocation.getCurrentPosition(function (position) {
+                  const userLat = position.coords.latitude;
+                  const userLng = position.coords.longitude;
+
+                  // Array para armazenar as promessas de cálculo de distância
+                  const promises = [];
+
+                  for (var i = 0; i < retorno.length; i++) {
+                      const lati = retorno[i].latitude;
+                      const longi = retorno[i].longitude;
+                      const origem = `${userLat},${userLng}`;
+                      const destino = `${lati},${longi}`;
+
+                      // Função de promessa para calcular a distância
+                      function calcularDistanciaPromise() {
+                          return new Promise((resolve, reject) => {
+                              calcularDistancia(origem, destino, function (distancia) {
+                                  resolve(distancia);
+                              });
+                          });
+                      }
+
+                      // Adicione a promessa à matriz de promessas
+                      promises.push(calcularDistanciaPromise());
+                  }
+
+                  // Use Promise.all para esperar que todas as promessas sejam resolvidas
+                  Promise.all(promises)
+                      .then(distancias => {
+                          for (var i = 0; i < retorno.length; i++) {
+                              var divCol = document.createElement("div");
+                              divCol.classList.add("col-lg-3");
         divCol.classList.add("col-md-4");
         divCol.classList.add("d-flex");
         divCol.classList.add("justify-content-center");
@@ -324,29 +375,36 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         divColFilho4.appendChild(spanFilho4);
 
-        var divColFilho5 = document.createElement("div");
-        divColFilho5.classList.add("col");
-        divColFilho5.classList.add("d-flex");
-        divColFilho5.classList.add("justify-content-end");
-        divRowFilho5.appendChild(divColFilho5);
-        var iconefilho2 = document.createElement("i");
-        iconefilho2.classList.add("bi");
-        iconefilho2.classList.add("bi-geo-alt-fill");
-        iconefilho2.classList.add("mx-1");
-        divColFilho5.appendChild(iconefilho2);
+                              var divColFilho5 = document.createElement("div");
+                              divColFilho5.classList.add("col");
+                              divColFilho5.classList.add("d-flex");
+                              divColFilho5.classList.add("justify-content-end");
+                              divRowFilho5.appendChild(divColFilho5);
+                              var iconefilho2 = document.createElement("i");
+                              iconefilho2.classList.add("bi");
+                              iconefilho2.classList.add("bi-geo-alt-fill");
+                              iconefilho2.classList.add("mx-1");
+                              divColFilho5.appendChild(iconefilho2);
 
-        var spanFilho5 = document.createElement("span");
-        spanFilho5.innerHTML = "1km";
-        divColFilho5.appendChild(spanFilho5);
+                              var distancia = distancias[i];
+                              var spanFilho5 = document.createElement("span");
+                              spanFilho5.setAttribute("id","spanDistancia");
+                              spanFilho5.innerHTML = distancia;
+                              divColFilho5.appendChild(spanFilho5);
+                          }
+                      })
+                      .catch(error => {
+                          console.error('Erro ao calcular distâncias:', error);
+                      });
+              });
+          }
+      },
+      error: function (xhr, status, error) {
+          console.error("Erro na requisição AJAX no index:", error, "xhr", xhr);
       }
-
-    },
-
-    error: function (xhr, status, error) {
-      console.error("Erro na requisição AJAX no index:", error, "xhr", xhr);
-    }
   });
 });
+
 
 const inputSupermercado = document.getElementById("inputSupermercado");
 const suggestionsDiv = document.getElementById("suggestions");
@@ -383,6 +441,19 @@ inputSupermercado.addEventListener("input", function () {
           inputSupermercado.value = result.name;
           document.getElementById("inputEnderecoMercado").value = result.formatted_address;
           suggestionsDiv.innerHTML = ""; // Limpa as sugestões
+
+          const divLatitude = document.createElement("div");
+          divLatitude.style.display = "none";
+          divLatitude.setAttribute("id","divLatitudeMercado");
+          divLatitude.innerHTML = result.geometry.location.lat();
+          const divLongitude = document.createElement("div");
+          divLongitude.style.display = "none";
+          divLongitude.setAttribute("id","divLongitudeMercado");
+          divLongitude.innerHTML = result.geometry.location.lng();
+          console.log(result.geometry.location.lat());
+          console.log(result.geometry.location.lng());
+          document.getElementById("divLabelSuper").appendChild(divLatitude);
+          document.getElementById("divLabelSuper").appendChild(divLongitude);
 
         });
 
@@ -530,11 +601,14 @@ document.getElementById("btnCadPromo").addEventListener("click", function () {
   } else {
     var u_valor = valor.value;
   }
+  u_lat = document.getElementById("divLatitudeMercado").textContent;
+  u_long = document.getElementById("divLongitudeMercado").textContent;
+
   $.ajax({
     url: '../precofacil/src/php/index.php',
     method: 'POST',
     data: {
-      'acao': u_acao, 'supermercado': u_supermercado, 'enderecoMercado': u_enderecoMercado, 'dataInicio': u_dataInc, 'dataFim': u_dataFim,
+      'acao': u_acao, 'supermercado': u_supermercado, 'enderecoMercado': u_enderecoMercado, 'latitude': u_lat, 'longitude': u_long, 'dataInicio': u_dataInc, 'dataFim': u_dataFim,
       'codigoBarras': u_codigoBarCode, 'descricaoProduto': u_descricaoProd, 'imagemProduto': u_imagemProd, 'valorProduto': u_valor
     },
     dataType: 'json',
@@ -675,8 +749,6 @@ $('#rowPromo').on('click', '.cardIndex', function() {
   var codElement = $(this).find('#cod');
   var codValue = codElement.text();
   console.log('Código:', codValue);
-
+  const varDistancia = document.getElementById("spanDistancia").textContent
   window.location.href = 'detalheProduto.html?codigo=' + codValue;
-
-//fazer pagina html para apresentar os detalhes do produto. 
 });

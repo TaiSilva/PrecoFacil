@@ -17,7 +17,7 @@
     $acao = $_REQUEST['acao'];
 
     if($acao == "ultimasPromo"){
-    $sql = "SELECT TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%H') AS horas, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%i') AS minutos, valor, imagem, descricao, supermercado, codigo FROM promocao ORDER BY dtinc LIMIT 9";
+    $sql = "SELECT TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%H') AS horas, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%i') AS minutos, valor, imagem, descricao, supermercado, codigo, latitudemercado, longitudemercado FROM promocao ORDER BY dtinc LIMIT 9";
       // Faça a consulta SQL e obtenha os resultados.
     $resultado = mysqli_query($conn, $sql);
 
@@ -37,7 +37,9 @@
         'valor' => $row['valor'],
         'imagem' => $row['imagem'],
         'supermercado' => $row['supermercado'],
-        'codigo' => $row['codigo']
+        'codigo' => $row['codigo'],
+        'latitude' => $row['latitudemercado'],
+        'longitude' => $row['longitudemercado']
     );
 
   array_push($resultadosArray, $resultadoItem);
@@ -53,6 +55,8 @@ echo $jsonResultados;
 if($acao == 'cadastraPromocao'){
   $nomeMercado = filter_var($_REQUEST['supermercado'],FILTER_SANITIZE_STRING);
   $endereco = filter_var($_REQUEST['enderecoMercado'],FILTER_SANITIZE_STRING);
+  $lat = filter_var($_REQUEST['latitude'],FILTER_SANITIZE_STRING);
+  $long = filter_var($_REQUEST['longitude'],FILTER_SANITIZE_STRING);
   $dataInc = filter_var($_REQUEST['dataInicio'],FILTER_SANITIZE_STRING);
   $dataFim = filter_var($_REQUEST['dataFim'],FILTER_SANITIZE_STRING);
   $codigoBarras = filter_var($_REQUEST['codigoBarras'],FILTER_SANITIZE_STRING);
@@ -60,7 +64,7 @@ if($acao == 'cadastraPromocao'){
   $imgProduto = filter_var($_REQUEST['imagemProduto'],FILTER_SANITIZE_STRING);
   $valor = filter_var($_REQUEST['valorProduto'],FILTER_SANITIZE_STRING);
 
-  $sql = "INSERT INTO promocao (imagem, valor, descricao, supermercado, enderecomercado, validadeinc, validadefim, codigobarras) VALUES ('$imgProduto', '$valor', '$descProduto', '$nomeMercado', '$endereco', '$dataInc', '$dataFim', '$codigoBarras')";
+  $sql = "INSERT INTO promocao (imagem, valor, descricao, supermercado,latitudemercado, longitudemercado, enderecomercado, validadeinc, validadefim, codigobarras) VALUES ('$imgProduto', '$valor', '$descProduto', '$nomeMercado', '$lat', '$long', '$endereco', '$dataInc', '$dataFim', '$codigoBarras')";
   $erro = mysqli_query($conn,$sql);
 	if(!$erro) die(mysqli_error($conn));
 
