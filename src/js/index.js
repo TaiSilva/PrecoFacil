@@ -464,10 +464,15 @@ inputSupermercado.addEventListener("input", function () {
     }
 
     document.addEventListener("click", function (event) {
-      if (!suggestionsDiv.contains(event.target) && event.target !== inputSupermercado) {
-        // O clique ocorreu fora da lista de sugestões e fora do elemento de entrada
-        // Feche a lista de sugestões
+      console.log(event);
+      if (event.target !== suggestionsDiv && event.target !== inputSupermercado) {
+        // Quando o clique for fora, fechar as sugestões
+    
         suggestionsDiv.style.display = "none";
+
+        //gostaria de quando for clicado fora das sugestões sem ter selecionado nenhuma das opções, limpar
+        //o input. Porém quando clico fora está limpando até quando eu seleciona, portanto retirei a opção abaixo
+        //inputSupermercado.value = "";
       }
     });
 
@@ -511,17 +516,24 @@ document.getElementById("input-codigodig").addEventListener("blur", function () 
     })
     .catch(error => {
       // Lide com erros de solicitação
+      if(!document.getElementById("input-codigodig").value == ""){
+        console.log(document.getElementById("input-codigodig").value);
       const divCodigoDig = document.getElementById("divInput-codigodig");
-      if(!divCodigoDig.classList.contains("invalido")){
+      if(!divCodigoDig.classList.contains("invalidoCodigo")){
         const labelCodigodig = document.createElement("label");
         labelCodigodig.setAttribute("id","labelCodigoDig");
         labelCodigodig.style.color = "red";
         labelCodigodig.innerHTML = "Código de barra incorreto. Realize a leitura novamente.";
         divCodigoDig.appendChild(labelCodigodig);
-        divCodigoDig.classList.add("invalido");
+        divCodigoDig.classList.add("invalidoCodigo");
         
       }
 
+      }else{
+        document.getElementById("labelCodigoDig").style.display = "none";
+
+      }
+      
       console.error("Erro: " + error);
     });
 
@@ -546,6 +558,7 @@ document.getElementById("btnCadPromo").addEventListener("click", function () {
     const labelSuper = document.getElementById("divLabelSuper");
     if (!labelSuper.classList.contains("invalido")) {
       var spanCadPromo = document.createElement("span");
+      spanCadPromo.setAttribute("id","spanSupermercadoCad");
       spanCadPromo.textContent = "*";
       spanCadPromo.style.color = "red";
       labelSuper.classList.add("invalido");
@@ -556,28 +569,38 @@ document.getElementById("btnCadPromo").addEventListener("click", function () {
   } else {
     var u_acao = "cadastraPromocao";
     var u_supermercado = inputSuper.value;
-    var u_enderecoMercado = document.getElementById("inputEnderecoMercado").value;
+    var u_enderecoMercado = document.getElementById("inputEnderecoMercado").value;    
   }
   const checkBox = document.getElementById("checkDataPromo");
   if (checkBox.checked == false) {
     const dataInicio = document.getElementById("dataInc");
     const dataFinal = document.getElementById("dataFim");
+    console.log(dataInicio.value);
     if (dataInicio.value == "" || dataFinal.value == "") {
       const vencPromo = document.getElementById("divVencimento");
       if (!vencPromo.classList.contains("invalido")) {
         const spanCadPromo = document.createElement("span");
+        spanCadPromo.setAttribute("id","spanDataIncFimCad");
         spanCadPromo.textContent = "*";
         spanCadPromo.style.color = "red";
         vencPromo.classList.add("invalido");
         vencPromo.appendChild(spanCadPromo);
-        dataInicio.style.border = "1px solid red";
-        dataFinal.style.border = "1px solid red";
+
+        if(dataInicio.value == "" && dataFinal.value != ""){
+          dataInicio.style.border = "1px solid red";
+        }else if(dataInicio.value != "" && dataFinal.value == ""){
+          dataFinal.style.border = "1px solid red";
+        }else{
+          dataFinal.style.border = "1px solid red";
+          dataInicio.style.border = "1px solid red";
+        }
+        
       }
     } else {
       var u_dataInc = dataInicio.value;
-      var u_dataFim = dataFinal.value;
     }
   } else {
+    var u_naoInformar = true;
     var u_dataInc = null;
     var u_dataFim = null;
   }
@@ -587,6 +610,7 @@ document.getElementById("btnCadPromo").addEventListener("click", function () {
     const labelCodigo = document.getElementById("divCodBarra");
     if (!labelCodigo.classList.contains("invalido")) {
       const spanCadPromo = document.createElement("span");
+      spanCadPromo.setAttribute("id","spanCodBarraCad");
       spanCadPromo.textContent = "*";
       spanCadPromo.style.color = "red";
       labelCodigo.classList.add("invalido");
@@ -601,10 +625,12 @@ document.getElementById("btnCadPromo").addEventListener("click", function () {
   }
 
   const valor = document.getElementById("valorPromo");
-  if (valor.value == "" || valor.value == null) {
+  if (valor.value == "" || valor.value == 0.00) {
+    console.log(valor.value);
     const labelValor = document.getElementById("divLabelValor");
     if (!labelValor.classList.contains("invalido")) {
       const spanCadPromo = document.createElement("span");
+      spanCadPromo.setAttribute("id","spanValorCad");
       spanCadPromo.textContent = "*";
       spanCadPromo.style.color = "red";
       labelValor.classList.add("invalido");
@@ -618,24 +644,28 @@ document.getElementById("btnCadPromo").addEventListener("click", function () {
   u_lat = document.getElementById("divLatitudeMercado").textContent;
   u_long = document.getElementById("divLongitudeMercado").textContent;
 
-  $.ajax({
-    url: '../precofacil/src/php/index.php',
-    method: 'POST',
-    data: {
-      'acao': u_acao, 'supermercado': u_supermercado, 'enderecoMercado': u_enderecoMercado, 'latitude': u_lat, 'longitude': u_long, 'dataInicio': u_dataInc, 'dataFim': u_dataFim,
-      'codigoBarras': u_codigoBarCode, 'descricaoProduto': u_descricaoProd, 'imagemProduto': u_imagemProd, 'valorProduto': u_valor
-    },
-    dataType: 'json',
-    success: function (retorno) {
-      if (retorno == "sucesso") {
-        $('#modal-aviso').modal('show');
+  if(u_valor != null && u_codigoBarCode != null && (u_dataInc != null || (u_dataInc == null && u_naoInformar == true))){
+    console.log("entrou ajax");
+    $.ajax({
+      url: '../precofacil/src/php/index.php',
+      method: 'POST',
+      data: {
+        'acao': u_acao, 'supermercado': u_supermercado, 'enderecoMercado': u_enderecoMercado, 'latitude': u_lat, 'longitude': u_long, 'dataInicio': u_dataInc, 'dataFim': u_dataFim,
+        'codigoBarras': u_codigoBarCode, 'descricaoProduto': u_descricaoProd, 'imagemProduto': u_imagemProd, 'valorProduto': u_valor
+      },
+      dataType: 'json',
+      success: function (retorno) {
+        if (retorno == "sucesso") {
+          $('#modal-aviso').modal('show');
+        }
+      },
+  
+      error: function (xhr, status, error) {
+        console.error("Erro na requisição AJAX Cadastro Promocao:", error, "xhr", xhr);
       }
-    },
-
-    error: function (xhr, status, error) {
-      console.error("Erro na requisição AJAX login:", error, "xhr", xhr);
-    }
-  });
+    });
+  }
+  
 })
 $('body').on('click', '#fecharmodal', function () {
   window.location.href = 'index.html';
@@ -653,9 +683,16 @@ document.getElementById("lerCodeBar").addEventListener("click", function () {
     var code = result.codeResult.code;
     document.getElementById("input-codigodig").value = code;
     Quagga.stop();
-    const modal = document.getElementById("modal-camera");
+    const modal = document.getElementById("modal-cameraCad");
     modal.style.display = "none";
     $('#modalInserirPromocao').modal('show');
+    // Encontre a div com a classe 'modal-backdrop'
+    var modalBackdrop = document.querySelector('.modal-backdrop');
+
+    if (modalBackdrop) {
+      modalBackdrop.parentNode.removeChild(modalBackdrop);
+    }
+
     //console.log("Código de barras detectado aletrado:" + code);
   });
 
@@ -663,7 +700,7 @@ document.getElementById("lerCodeBar").addEventListener("click", function () {
     inputStream: {
       name: "Live",
       type: "LiveStream",
-      target: document.querySelector("#barcode-scanner-smart"),
+      target: document.querySelector("#barcode-scanner-cadastro"),
     },
     locator: {
       patchSize: "medium",
@@ -766,3 +803,82 @@ $('#rowPromo').on('click', '.cardIndex', function() {
   const varDistancia = document.getElementById("spanDistancia").textContent
   window.location.href = 'detalheProduto.html?codigo=' + codValue;
 });
+
+document.getElementById("inputSupermercado").addEventListener("blur", function(){
+  const inputSuperCad = document.getElementById("inputSupermercado");
+  const spanSupermercadoCad = document.getElementById("spanSupermercadoCad");
+  if(!inputSuperCad.value == ""){
+    inputSuperCad.style.border = "";
+    spanSupermercadoCad.textContent = spanSupermercadoCad.textContent.replace("*","");
+  }else{
+    inputSuperCad.style.border = "1px solid red";
+    document.getElementById("inputEnderecoMercado").value = "";
+  }
+})
+document.getElementById("dataInc").addEventListener("blur", function(){
+  const dataInc = document.getElementById("dataInc");
+  const spanDataIncFimCad = document.getElementById("spanDataIncFimCad");
+  if(!dataInc.value == ""){
+    dataInc.style.border = "";
+    spanDataIncFimCad.textContent = spanDataIncFimCad.textContent.replace("*","");
+  }
+})
+document.getElementById("dataFim").addEventListener("blur", function(){
+  const dataFim = document.getElementById("dataFim");
+  const spanDataIncFimCad = document.getElementById("spanDataIncFimCad");
+
+  if(!dataFim.value == ""){
+    dataFim.style.border = "";
+    spanDataIncFimCad.textContent = spanDataIncFimCad.textContent.replace("*","");
+
+  }
+})
+
+const checkDataPromo = document.getElementById("checkDataPromo");
+checkDataPromo.addEventListener("click",function(){
+  if (checkDataPromo.checked == true) {
+    const dataInc = document.getElementById("dataInc");
+    const dataFim = document.getElementById("dataFim");
+    const spanDataIncFimCad = document.getElementById("spanDataIncFimCad");
+    dataInc.style.border = "";
+    dataFim.style.border = "";
+    spanDataIncFimCad.textContent = spanDataIncFimCad.textContent.replace("*","");
+  }else{
+    if(dataInc.value == "" || dataFim.value == ""){
+      dataInc.style.border = "1px solid red";
+      dataFim.style.border = "1px solid red";
+    }
+  }
+})
+
+document.getElementById("input-codigodig").addEventListener("blur", function(){
+  const codigodig = document.getElementById("input-codigodig");
+  const spanCodBarraCad = document.getElementById("spanCodBarraCad");
+
+  if(!codigodig.value == ""){
+    codigodig.style.border = "";
+    spanCodBarraCad.textContent = spanCodBarraCad.textContent.replace("*","");
+
+  }else{
+    codigodig.style.border = "1px solid red";
+    document.getElementById("input-descricao").value = "";
+    document.getElementById("imgCad").src = "";
+  }
+})
+
+document.getElementById("valorPromo").addEventListener("blur", function(){
+  const valorPromo = document.getElementById("valorPromo");
+  const spanValorCad = document.getElementById("spanValorCad");
+
+  if(!valorPromo.value == ""){
+    valorPromo.style.border = "";
+    spanValorCad.textContent = spanValorCad.textContent.replace("*","");
+
+  }else{
+    valorPromo.style.border = "1px solid red";
+  }
+})
+
+document.getElementById("closeCameraBtn").addEventListener("click", function(){
+  Quagga.stop();
+})

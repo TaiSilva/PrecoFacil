@@ -49,15 +49,15 @@
             
         </div>
 
-            <div class="row input-tam-pequeno mt-3 d-block d-md-none">
-                <div class="col d-flex justify-content-center">
+            <div class="row input-tam-pequeno mt-3 d-block d-md-none" style="max-width: 100%;">
+                <div class="col-12 d-flex justify-content-center">
                     <input type="text" class="d-flex input-buscarpromo me-2 rounded-3 d-block d-md-none"
                         placeholder="Buscar Produto">
                     <span class="d-flex align-items-center">
                         <i class="bi bi-search d-block d-md-none"></i>
                     </span>
                 </div>
-                <div class="col d-flex justify-content-center d-block d-md-none mt-3">
+                <div class="col-12 d-flex justify-content-center d-block d-md-none mt-3 px-0">
                     <button type="submit" class="btn botao-cor-especial botao" id="eventobotaocodigo"
                         data-bs-toggle="modal" data-bs-target="#modal-camera">
                         <i class="bi bi-upc-scan">Pesquisa por código de barras</i>
@@ -108,15 +108,12 @@
             </div>
         </div>
         
-        <footer class="fixed-bottom footer d-block d-md-none">
+        <footer class="fixed-bottom d-block d-md-none">
 
             <div class="circulo-footer">
                 <button class="btn" id="btnInserirPromoPeq" data-bs-toggle="modal" data-bs-target="#modalInserirPromocao">
-                    <i class="bi bi-plus-circle-fill iconePromo"></i>
+                    <i class="bi bi-plus-circle-fill iconePromo m-0"></i>
                 </button>
-            </div>
-            <div class="content d-flex justify-content-center">
-
             </div>
         </footer>
 
@@ -147,7 +144,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12" id="divVencimento">
-                            <label for="" class="form-label mt-3">Período de início e fim da promoção</label>
+                            <label for="" class="form-label mt-3" id="labelDataIncCad">Período de início e fim da promoção</label>
                         </div>
                     </div>
                     <div class="row">
@@ -171,7 +168,7 @@
                             <input type="text" name="" id="input-codigodig" class="form-control">
                         </div>
                         <div class="col-6">
-                            <button type="button" class="btn botao-borda-especial" id="lerCodeBar" data-bs-target="#modal-camera" data-bs-toggle="modal">Ler código de barras</button>
+                            <button type="button" class="btn botao-borda-especial" id="lerCodeBar" data-bs-target="#modal-cameraCad" data-bs-toggle="modal">Ler código de barras</button>
                         </div>
                     </div>
                     <div class="row">
@@ -233,8 +230,28 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        id="closeCameraBtn">Fechar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeCameraBtn">Fechar</button>
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para abrir a camera da leitura de código de barras dentro do cadastrar promoção-->
+    <div class="modal fade" id="modal-cameraCad" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div id="barcode-scanner-cadastro" class="d-flex justify-content-center camera">
+                    <video autoplay="true" preload="auto" src="" muted="true" playsinline="true" class="camera"
+                        id="camera"></video>
+                    <canvas class="drawingBuffer" width="640" height="480"></canvas>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="closeCameraBtn" class="btn btn-secondary" data-bs-target="#modalInserirPromocao" data-bs-toggle="modal">
+                        Fechar
+                    </button>
+                        
                 </div>
             </div>
         </div>

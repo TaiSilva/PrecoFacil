@@ -17,8 +17,11 @@ mostrarsenha.addEventListener("click", function(){
 
 document.getElementById("cadastrousuario-cep").addEventListener("blur", function() {
     const cep = document.getElementById("cadastrousuario-cep").value;
-  
     
+    $(document).ready(function () { 
+        $("#cadastrousuario-cep").mask("99999-999");
+    })
+
     fetch(`https://viacep.com.br/ws/${cep}/json/`)
       .then((response) => response.json())
       .then((data) => {

@@ -43,7 +43,7 @@ $.ajax({
                     <div class="col-12 d-flex justify-content-center mt-5">
                         <img src="${retorno.imagem}" style="max-height:200px; max-width:200px">
                     </div>
-                    <div class="row m-0 mt-5 descricaoDetalhe d-flex align-items-center fw-bold">
+                    <div class="row m-0 mt-5 descricaoDetalhe d-flex align-items-center fw-bold" style="height: auto;">
                         <div class="col-4 d-flex justify-content-start">
                             <i class="bi bi-plus-slash-minus mx-1"></i>
                             <label for="">${distancia}</label>
