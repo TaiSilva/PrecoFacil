@@ -52,7 +52,7 @@ $.ajax({
                             ${retorno.descricao}
                         </div>
                         <div class="col-4 d-flex justify-content-end" style="color: green; id="divValor">
-                            R$ ${retorno.valor}
+                            R$ ${(retorno.valor).replace('.',',')}
                         </div>
                     </div>
                     <div class="row mt-5">
@@ -113,10 +113,12 @@ document.getElementById("compartilhar").addEventListener("click", function () {
 
 document.getElementById("btnMapa").addEventListener("click", function () {
     const enderecoFormatado = (document.getElementById("divEndereco").textContent).split(' ').join('+');
-    const urlGoogleMaps = `https://www.google.com/maps?q=${document.getElementById("divSupermercado").textContent + enderecoFormatado}`;
+    const supermercado = document.getElementById("divSupermercado").textContent;
+    const urlGoogleMaps = `https://www.google.com/maps/dir/?api=1&origin=current+location&destination=
+                            ${supermercado + enderecoFormatado}`;
 
-    // Abra a URL no navegador
     window.open(urlGoogleMaps, '_blank');
+
 })
 
 document.getElementById("iconeVoltar").addEventListener("click", function () {

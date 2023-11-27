@@ -17,7 +17,7 @@
     $acao = $_REQUEST['acao'];
 
     if($acao == "ultimasPromo"){
-    $sql = "SELECT TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%H') AS horas, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%i') AS minutos, valor, imagem, descricao, supermercado, codigo, latitudemercado, longitudemercado FROM promocao ORDER BY dtinc LIMIT 9";
+    $sql = "SELECT TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%H') AS horas, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%i') AS minutos, valor, imagem, descricao, supermercado, codigo, latitudemercado, longitudemercado FROM promocao ORDER BY dtinc DESC LIMIT 9";
       // Faça a consulta SQL e obtenha os resultados.
     $resultado = mysqli_query($conn, $sql);
 
@@ -64,7 +64,10 @@ if($acao == 'cadastraPromocao'){
   $imgProduto = filter_var($_REQUEST['imagemProduto'],FILTER_SANITIZE_STRING);
   $valor = filter_var($_REQUEST['valorProduto'],FILTER_SANITIZE_STRING);
 
-  $sql = "INSERT INTO promocao (imagem, valor, descricao, supermercado,latitudemercado, longitudemercado, enderecomercado, validadeinc, validadefim, codigobarras) VALUES ('$imgProduto', '$valor', '$descProduto', '$nomeMercado', '$lat', '$long', '$endereco', '$dataInc', '$dataFim', '$codigoBarras')";
+  session_start();
+  $id = $_SESSION['codigo'];
+
+  $sql = "INSERT INTO promocao (imagem, valor, descricao, supermercado,latitudemercado, longitudemercado, enderecomercado, validadeinc, validadefim, codigobarras, idusuario) VALUES ('$imgProduto', '$valor', '$descProduto', '$nomeMercado', '$lat', '$long', '$endereco', '$dataInc', '$dataFim', '$codigoBarras', '$id')";
   $erro = mysqli_query($conn,$sql);
 	if(!$erro) die(mysqli_error($conn));
 

@@ -17,7 +17,7 @@
 
     if($acao == "buscarPorCod"){
         $codigoProd = filter_var($_REQUEST['codigo'],FILTER_SANITIZE_STRING);
-        $sql = "SELECT TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%H') AS horas, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%i') AS minutos, valor, imagem, descricao, supermercado FROM promocao WHERE codigobarras = $codigoProd";
+        $sql = "SELECT TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%H') AS horas, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%i') AS minutos, valor, imagem, descricao, supermercado, codigo, latitudemercado, longitudemercado FROM promocao WHERE codigobarras = $codigoProd";
       // Faça a consulta SQL e obtenha os resultados.
         $resultado = mysqli_query($conn, $sql);
 
@@ -36,7 +36,10 @@
             'descricao' => $row['descricao'],
             'valor' => $row['valor'],
             'imagem' => $row['imagem'],
-            'supermercado' => $row['supermercado']
+            'supermercado' => $row['supermercado'],
+            'codigo' => $row['codigo'],
+            'latitude' => $row['latitudemercado'],
+            'longitude' => $row['longitudemercado']
             );
 
             array_push($resultadosArray, $resultadoItem);
@@ -46,7 +49,7 @@
         echo $jsonResultados;
     }else if($acao == "buscarPorDesc"){
         $codigoProd = filter_var($_REQUEST['codigo'],FILTER_SANITIZE_STRING);
-        $sql = "SELECT TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%H') AS horas, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%i') AS minutos, valor, imagem, descricao, supermercado FROM promocao WHERE descricao like '%$codigoProd%'";
+        $sql = "SELECT TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%H') AS horas, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP, dtinc), '%i') AS minutos, valor, imagem, descricao, supermercado, codigo, latitudemercado, longitudemercado FROM promocao WHERE descricao like '%$codigoProd%'";
       // Faça a consulta SQL e obtenha os resultados.
         $resultado = mysqli_query($conn, $sql);
 
@@ -65,7 +68,10 @@
             'descricao' => $row['descricao'],
             'valor' => $row['valor'],
             'imagem' => $row['imagem'],
-            'supermercado' => $row['supermercado']
+            'supermercado' => $row['supermercado'],
+            'codigo' => $row['codigo'],
+            'latitude' => $row['latitudemercado'],
+            'longitude' => $row['longitudemercado']
             );
 
             array_push($resultadosArray, $resultadoItem);
@@ -93,5 +99,26 @@
 
             echo json_encode("sucesso");
         }*/
+    }else if($acao == "minhaspromocoes"){
+        session_start();
+        $idusuario = $_SESSION['codigo'];
+
+        $sql = "SELECT descricao, valor, supermercado, DATE_FORMAT(dtinc, '%d-%m-%y') AS dtinc FROM promocao WHERE idusuario = $idusuario";
+          $resultado = mysqli_query($conn, $sql);
+  
+          $resultadosArray = array();
+  
+          while ($row = mysqli_fetch_assoc($resultado)) {
+  
+              $resultadoItem = array(
+              'descricao' => $row['descricao'],
+              'valor' => $row['valor'],
+              'supermercado' => $row['supermercado'],
+              'dtinc' => $row['dtinc']
+              );
+  
+              array_push($resultadosArray, $resultadoItem);
+          }
+          echo json_encode($resultadosArray);
     }
 ?>

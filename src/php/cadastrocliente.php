@@ -62,7 +62,7 @@
         $email = filter_var($_REQUEST['usuario'],FILTER_SANITIZE_STRING);
         $senha = filter_var($_REQUEST['senha'],FILTER_SANITIZE_STRING);
 
-        $sql = "SELECT COUNT(*) as total, senha, email, SUBSTRING_INDEX(SUBSTRING_INDEX(nomecompleto, ' ', 1), ' ', -1) AS primeironome FROM usuario WHERE email = '$email'";
+        $sql = "SELECT COUNT(*) as total, senha, email, SUBSTRING_INDEX(SUBSTRING_INDEX(nomecompleto, ' ', 1), ' ', -1) AS primeironome, id FROM usuario WHERE email = '$email'";
         $busca = mysqli_query($conn, $sql);
         $result = mysqli_fetch_assoc($busca);
 
@@ -72,11 +72,23 @@
             session_start();
 		    $_SESSION['usuario'] = $result['primeironome'];
 		    $_SESSION['logado'] = 'logado';
+            $_SESSION['codigo'] = $result['id'];
             echo json_encode("senhaValida");
         }else{
             echo json_encode("senhaInvalida");
         } 
     }else if($acao == 'esqueciSenha'){
+        function gerarSenha($tamanho) {
+            $caracteresPermitidos = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@!";
+            $senha = "";
+            
+            for ($i = 0; $i < $tamanho; $i++) {
+                $indiceAleatorio = mt_rand(0, strlen($caracteresPermitidos) - 1);
+                $senha .= $caracteresPermitidos[$indiceAleatorio];
+            }
+            
+            return $senha;
+        }
         $email = filter_var($_REQUEST['email'],FILTER_SANITIZE_STRING);
         $senha = filter_var($_REQUEST['senha'],FILTER_SANITIZE_STRING);
 
@@ -87,6 +99,8 @@
         //se o email inserido for o mesmo do cadastro, alterar a senha e mandar por email
         //não consegui implementar o envio de email.
         if($result['email'] == $email){
+            $senha = gerarSenha(8);
+
             $alteracao = "UPDATE usuario SET senha ='$senha' WHERE email = '$email'";
             $erro = mysqli_query($conn,$alteracao);
 
@@ -97,7 +111,10 @@
             $subject = "Resposta Automática";
             $mensagem = "A sua senha foi alterada para '$senha'. Por motivo de segurança é recomendado a troca de senha.";
             $headers = "From:" . $from;
+            echo $from,$to,$subject,$mensagem,$headers;
+            
             mail($to,$subject,$mensagem, $headers);
+            
                 
             echo json_encode("senhaAtualizada");
         }else{

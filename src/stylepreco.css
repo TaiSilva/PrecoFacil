@@ -53,12 +53,27 @@ width:150px;
 	box-shadow: 0px 2px 8px  #000000;
 	
 }
-.inputLogin{
-	border: none;
-	border-bottom:1px solid black;
-	display: block;
-	
+
+@media(min-width: 765px){
+	.inputLogin{
+		border: none;
+		border-bottom:1px solid black;
+		display: block;
+		width: 250px;
+	}
+	#email-senha{
+		width: 27em;
+	}
 }
+ @media(max-width: 764px){
+	.inputLogin{
+		width: 15em;
+	}
+	#email-senha{
+		width: 21em;
+	}
+	
+ }
 
 i {
 	margin-left: -25px;
@@ -81,7 +96,7 @@ i {
 	   
 }
 .label-form-login{
-	font-family: 'Lobster', cursive;
+	/*font-family: 'Lobster', cursive;*/
 	text-shadow: 2px 2px 2px #FF8000;
 }
 .link-default{
@@ -129,6 +144,12 @@ i {
 .cardIndex{
 	border: none;
 	box-shadow: 1px 5px 3px  lightslategray;
+	border-radius: 25px;
+}
+.cardIndexListar{
+	border: none;
+	box-shadow: 1px 5px 3px  lightslategray;
+	border-radius: 25px;
 }
 .botao-borda-especial{
 	border: 1px solid #FF8000;
@@ -144,8 +165,8 @@ i {
 
 .circulo-footer {
     position: absolute;
-    bottom: 20px;
-    left: 50%; /* Centraliza horizontalmente */
+    bottom: 15px;
+    left: 55%; /* Centraliza horizontalmente */
     transform: translateX(75%);
     width: 100px; /* Largura do círculo */
     height: 100px; /* Altura do círculo */
@@ -194,3 +215,24 @@ i {
 	}
 }
 
+.custom-modal {
+	position: fixed;
+	top: 0;
+	right: 0;
+	height: 100%;
+	width: 50%;
+	background-color: white;
+	padding: 20px;
+	box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+  }
+.sem-borda{
+	border: none!important;
+}
+.BotaoSair{
+	border: none;
+	box-shadow: 2px 2px 5px  lightslategray;
+	border-radius: 5px;
+}
+a{
+	text-decoration: none;
+  }
